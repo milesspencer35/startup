@@ -1,1 +1,1 @@
-This is the conflict file it is big time
+This is the conflict file, it is big time!
