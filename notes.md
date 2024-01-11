@@ -19,7 +19,7 @@
     * Backticks can also be used to distinguish colors
 
 * Links
-    * [Name that will be displayed](URL)
+    * Formatting: \[Name that will be displayed](URL)
 
 * Relative links
     * Relative links direct users to other parts of you repository
@@ -34,7 +34,7 @@
     * To order a list, preface each line with a number like '1.'
 
 * Task list
-    * [ ] for a empty box, [x] for a checked box
+    * \[ ] for a empty box, [x] for a checked box
 
 * Hiding content with comments
     * Comments look like this `<!-- stuff to comment out -->`
