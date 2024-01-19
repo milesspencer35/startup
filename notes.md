@@ -1,8 +1,8 @@
-# Basic writing and formating syntax Notes
+## Basic writing and formatting syntax Notes
  
 * Heading
     * Heading are marked by the # symbol.
-    * The number of # symbols distiguish what level of heading it will be
+    * The number of # symbols distinguishes what level of heading it will be
 
 * Styling text
     * '**' surrounding text makes it bold
@@ -41,3 +41,7 @@
 
 * Ignoring Markdown formatting
     * Simply preface the markdown character with a backslash \
+
+## EC2
+* My public IP address: `http://44.221.29.230/`
+* Login into the server via command line using : `ssh -i [key pair file] ubuntu@[ip address]`
