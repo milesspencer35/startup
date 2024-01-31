@@ -45,3 +45,7 @@
 ## EC2
 * My public IP address: `http://44.221.29.230/`
 * Login into the server via command line using : `ssh -i [key pair file] ubuntu@[ip address]`
+
+
+## API
+https://github.com/beanboi7/yomomma-apiv2/blob/master/README.md
