@@ -18,7 +18,7 @@ Counting inventory manually is a pain, especially at BYU Football. With a wide a
 * Notifications when another user adds an item information
 * Item info is persistently stored
 
-### Technologies
+## Technologies
 I am going to use the required technologies in the following ways.
 
 * HTML - This will be the layout of the 3 webpages. It will include text, input files, and buttons. 
@@ -28,3 +28,10 @@ I am going to use the required technologies in the following ways.
 * DB/Login - Input box and submit box for login. The database will hold items and their information. Once a user inputs a UPC code that is stored in the database that info will be sent to the client. 
 * WebSocket - Sends a notification when someone enters a brand new item with info. 
 * React - Application ported to use the React web framework.
+
+## HTML deliverable
+
+➡️ The following is an example of the required information for the `Startup HTML` deliverable
+
+For this deliverable I built out the structure of my application using HTML.
+
