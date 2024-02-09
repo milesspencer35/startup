@@ -5,6 +5,7 @@ html {
 }
 
 body {
+    font-family: 'Nunito', sans-serif;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -66,8 +67,20 @@ body {
 }
 
 footer {
+    display: flex;
     height: 2.5rem;
-    justify-self: flex-end;
-    background-color: gray;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e5e5e5;
+}
+
+#linkedin {
+    padding-left: 1rem;
+    color:#ff6600;
+}
+
+#github {
+    padding-right: 1rem;
+    color:#ff6600;
 }
 
