@@ -1,7 +1,71 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;700&display=swap');
 
-h1 {
+html {
+    height: 100%
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-size: 5rem 5rem;
+    background-image:
+        linear-gradient(to right, #e5e5e5 1px, transparent 1px),
+        linear-gradient(to bottom, #e5e5e5 1px, transparent 1px);
+    background-position: center center;
+
+}
+
+#center-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#header-text {
     font-weight: 700;
     font-family: 'Nunito', sans-serif;
+    font-size: 3rem;
+    text-align: center;
+}
+
+#login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-content {
+    margin-bottom: .5rem;
+    align-self: center;
+}
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited, .btn-primary:focus, .btn-primary:active:focus {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #ff6600;
+    --bs-btn-border-color: #ff7700;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #ff7700;
+    --bs-btn-hover-border-color: #ff6600;
+}
+
+footer {
+    justify-self: flex-end;
+    background-color: gray;
 }
 
