@@ -16,6 +16,60 @@ body {
     background-position: center center;
 }
 
+#page-header {
+    display: flex;
+    flex-direction: row;
+    height: 4rem;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#header-brand {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+}
+
+#header-title {
+    font-weight: bold;
+    padding-right: 1rem; 
+    padding-left: 1rem;
+    margin-bottom: 0px;
+}
+
+#header-items {
+    display: flex;
+    justify-content: end;
+    margin-right: 1rem;
+    width: 50%;
+}
+
+#header-username {
+    color: black;
+    padding: .75rem;
+    align-self: center;
+}
+
+.header-item {
+    color: black;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    text-decoration:none;
+    padding: .75rem;
+}
+
+.header-item:hover {
+    border: 1px solid #ff6600;
+    color: #ff6600;
+}
+
+.form-control:focus {
+    border-color: #ff7700;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #ff7700;
+}
+
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited, .btn-primary:focus, .btn-primary:active:focus {
     --bs-btn-color: #fff;
     --bs-btn-bg: #ff6600;
@@ -37,7 +91,6 @@ footer {
     display: flex;
     height: 2.5rem;
     align-items: baseline;
-    background-color: #e5e5e5;
     font-size: 1.25rem;
 }
 
