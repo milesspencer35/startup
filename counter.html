@@ -17,12 +17,25 @@
             <h1 id="header-title">UPC Counter</h1>
             <img id="header-logo" width="100px" style="width: 3rem;" src="barcode.png">
         </div>
-        <div id="header-items">
-            <a class="header-item" href="counter.html">Counter</a>
-            <a class="header-item" href="inventoryList.html">Inventory List</a>
-            <span id="header-username" >Display of Username</span>
-            <a class="header-item" href="index.html">Log out</a>
+        <div>
+            <div id="header-items">
+                <a class="header-item" href="counter.html">Counter</a>
+                <a class="header-item" href="inventoryList.html">Inventory List</a>
+                <span id="header-username" >Display of Username</span>
+                <a class="header-item" href="index.html">Log out</a>
+            </div>
+            <div class="dropdown">
+                <!-- <button class="dropbtn">Dropdown</button> -->
+                <i class="bi bi-list dropbtn"></i>
+                <div class="dropdown-content">
+                    <a href="counter.html">Counter</a>
+                    <a href="inventoryList.html">Inventory List</a>
+                    <span>Display of Username</span>
+                    <a href="index.html">Log out</a>
+                </div>
+            </div>
         </div>
+
     </header>
     <main id="center-content">
         <form method="get" class="upc-form">
