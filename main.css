@@ -6,7 +6,7 @@ html {
 
 body {
     font-family: 'Nunito', sans-serif;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     background-size: 5rem 5rem;
@@ -93,10 +93,10 @@ footer {
     height: 2.5rem;
     align-items: baseline;
     font-size: 1.25rem;
+    padding-bottom: .25rem;
 }
 
 #name {
-    align-self: center;
     font-size: 1rem;
     font-weight: bold;
     padding-left: 1rem;
