@@ -12,54 +12,79 @@
     <link rel="stylesheet" href="counter.css" />
 </head>
 <body>
-    <header>
-        <h1>UPC Counter</h1>
-        <img width="50px" src="barcode.png">
-        <ul>
-            <li>
-                <a href="counter.html">Counter</a>
-            </li>
-            <li><a href="inventoryList.html">Inventory List</a></li>
-            <li>Display of Username</li>
-            <li><a href="index.html">Log out</a></li>
-        </ul>
+    <header id="page-header">
+        <div id="header-brand">
+            <h1 id="header-title">UPC Counter</h1>
+            <img id="header-logo" width="100px" style="width: 3rem;" src="barcode.png">
+        </div>
+        <div id="header-items">
+            <a class="header-item" href="counter.html">Counter</a>
+            <a class="header-item" href="inventoryList.html">Inventory List</a>
+            <span id="header-username" >Display of Username</span>
+            <a class="header-item" href="index.html">Log out</a>
+        </div>
     </header>
-    <hr>
-    <main>
-        <form>
-            <label for="upcCode">Input UPC Code</label>
-            <input type="text" id="upcCode" placeholder="UPC code" >
-            <button type="submit">Add</button>
+    <main id="center-content">
+        <form method="get" class="upc-form">
+            <span class="upc-form-item">Input UPC Code</span>
+            <div class="form-group upc-form-item">
+              <input type="text" class="form-control" placeholder="UPC code">
+            </div>
+            <button type="submit" class="btn btn-primary upc-form-item">Add</button>
         </form>
-        <h3>Count</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Item name</th>
-                    <th>UPC</th>
-                    <th>Style Code</th>
-                    <th>Size</th>
-                    <th>Count</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Panda Dunks</td>
-                    <td>12345678</td>
-                    <td>ABCD-123</td>
-                    <td>9</td>
-                    <td>56</td>
-                </tr>
-                <tr>
-                    <td>Air Max 97</td>
-                    <td>87654321</td>
-                    <td>DCBA-321</td>
-                    <td>13</td>
-                    <td>34</td>
-                </tr>
-            </tbody>
-        </table>
-        <button>Reset Count</button>
+        <div id="count-content">
+            <span id="count-title">Count</span>
+
+            <div id="count-items">
+                <div class="count-item">
+                    <div class="item-name">Panda Dunks</div>
+                    <div class="item-content">
+                        <div class="item-details">
+                            <div>
+                                <span class="item-type">UPC: </span>
+                                <span class="item-data">12345678</span>
+                            </div>
+                            <div>
+                                <span class="item-type">Style Code:</span>
+                                <span class="item-data">ABCD-123</span>
+                            </div>
+                            <div>
+                                <span class="item-type">Size:</span>
+                                <span class="item-data">9</span>
+                            </div>
+                        </div>
+                        <div class="item-count">
+                            <span class="count-title">Count</span>
+                            <span class="count-number">56</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="count-item">
+                    <div class="item-name">Air Max 97</div>
+                    <div class="item-content">
+                        <div class="item-details">
+                            <div>
+                                <span class="item-type">UPC: </span>
+                                <span class="item-data">87654321</span>
+                            </div>
+                            <div>
+                                <span class="item-type">Style Code:</span>
+                                <span class="item-data">DCBA-321</span>
+                            </div>
+                            <div>
+                                <span class="item-type">Size:</span>
+                                <span class="item-data">13</span>
+                            </div>
+                        </div>
+                        <div class="item-count">
+                            <span class="count-title">Count</span>
+                            <span class="count-number">34</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="reset-button" class="btn btn-danger">Reset Count</button>
+        </div>
     </main>
     <footer>
         <p id="name">Miles Spencer</p>
