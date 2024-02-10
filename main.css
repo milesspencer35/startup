@@ -22,6 +22,7 @@ body {
     height: 4rem;
     align-items: center;
     justify-content: space-evenly;
+    margin-top: 1rem;
 }
 
 #header-brand {
