@@ -20,6 +20,7 @@
     border-color: #ff7700;
     background-color: transparent;
     padding: 1rem;
+    font-size: 1rem;
 }
 
 .list-group-item-type {
@@ -27,6 +28,25 @@
     margin-left: .5rem;
 }
 
+#add-item {
+    margin-top: 3rem;
+}
+
 #inventoryList-content {
-    margin-top: 4rem;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.card {
+    margin-right: 1rem;
+    margin-left: 1rem;
+    border-radius: 0%;
+}
+
+.card-header {
+    border: none;
+}
+
+.collapse {
+    width: inherit;
 }
