@@ -42,67 +42,67 @@
             <h4>Recently added items</h3>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <div style="display: inline-block">
+                        <div class="list-group-item-detail">
                             <span class="list-group-item-type">Miles</span>
                             <span>added &nbsp; &mdash;</span>
                         </div>
-                        <div style="display: inline-block">
+                        <div class="list-group-item-detail">
                             <span class="list-group-item-type">Name: </span>
                             <span>Panda Dunks</span>
                         </div>
-                        <div style="display: inline-block">
+                        <div class="list-group-item-detail">
                             <span class="list-group-item-type">UPC: </span>
                             <span>12345678</span>
                         </div>
-                        <div style="display: inline-block">
+                        <div class="list-group-item-detail">
                             <span class="list-group-item-type">Style: </span>
                             <span>ABCD-123</span>
                         </div>
-                        <div style="display: inline-block">
+                        <div class="list-group-item-detail">
                             <span class="list-group-item-type">Size: </span>
                             <span>9</span>
                         </div>
                     </li>
                     <li class="list-group-item">
-                        <div style="display: inline-block">
+                        <div class="list-group-item-detail">
                             <span class="list-group-item-type">John</span>
                             <span>added &nbsp; &mdash;</span>
                         </div>
-                        <div style="display: inline-block">
+                        <div class="list-group-item-detail">
                             <span class="list-group-item-type">Name: </span>
                             <span>Air Max 97</span>
                         </div>
-                        <div style="display: inline-block">
+                        <div class="list-group-item-detail">
                             <span class="list-group-item-type">UPC: </span>
                             <span>87654321</span>
                         </div>
-                        <div style="display: inline-block">
+                        <div class="list-group-item-detail">
                             <span class="list-group-item-type">Style: </span>
                             <span>DCBA-321</span>
                         </div>
-                        <div style="display: inline-block">
+                        <div class="list-group-item-detail">
                             <span class="list-group-item-type">Size: </span>
                             <span>13</span>
                         </div>
                     </li>
                     <li class="list-group-item">
-                        <div style="display: inline-block">
+                        <div class="list-group-item-detail">
                             <span class="list-group-item-type">Josh</span>
                             <span>added &nbsp; &mdash;</span>
                         </div>
-                        <div style="display: inline-block">
+                        <div class="list-group-item-detail">
                             <span class="list-group-item-type">Name: </span>
                             <span>M STK LS TF FZ HD PRE-GM</span>
                         </div>
-                        <div style="display: inline-block">
+                        <div class="list-group-item-detail">
                             <span class="list-group-item-type">UPC: </span>
                             <span>194498473931</span>
                         </div>
-                        <div style="display: inline-block">
+                        <div class="list-group-item-detail">
                             <span class="list-group-item-type">Style: </span>
                             <span>CT2693-060</span>
                         </div>
-                        <div style="display: inline-block">
+                        <div class="list-group-item-detail">
                             <span class="list-group-item-type">Size: </span>
                             <span>M</span>
                         </div>
@@ -115,46 +115,172 @@
         <div id="inventoryList-content">
             <div id="accordion">
                 <div class="card">
-                  <div class="card-header" id="headingOne">
-                    <h5 class="mb-0">
-                      <button class="btn collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Panda Dunks &mdash; ABCD-123
-                      </button>
-                    </h5>
+                  <div class="card-header collapsed" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      <div class="card-title">
+                        ABCD-123 &mdash; Panda Dunks
+                      </div>
                   </div>
                   <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                     <div class="card-body">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                      <div class="card-items">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item inventoryItem">
+                                <div class="inventoryItem-details">
+                                    <div class="list-group-item-detail" >
+                                        <span class="list-group-item-type">Name: </span>
+                                        <span>Panda Dunk</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">UPC: </span>
+                                        <span>12345678</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">Style: </span>
+                                        <span>ABCD-123</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">Size: </span>
+                                        <span>9</span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary edit-button" style="display: inline-block">Edit</button>
+                            </li>
+                            <li class="list-group-item inventoryItem">
+                                <div class="inventoryItem-details">
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">Name: </span>
+                                        <span>Panda Dunk</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">UPC: </span>
+                                        <span>13245678</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">Style: </span>
+                                        <span>ABCD-123</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">Size: </span>
+                                        <span>12</span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary edit-button">Edit</button>
+                            </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <div class="card">
-                  <div class="card-header" id="headingTwo">
-                    <h5 class="mb-0">
-                      <button class="btn collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Air Max 97 &mdash; DCBA-321
-                      </button>
-                    </h5>
+                  <div class="card-header collapsed" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      <div class="card-title">
+                        DCBA-321 &mdash; Air Max 97
+                      </div>
                   </div>
                   <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                     <div class="card-body">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item inventoryItem">
+                                <div class="inventoryItem-details">
+                                    <div class="list-group-item-detail" >
+                                        <span class="list-group-item-type">Name: </span>
+                                        <span>Air Max 97</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">UPC: </span>
+                                        <span>87654321</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">Style: </span>
+                                        <span>DCBA-321</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">Size: </span>
+                                        <span>13</span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary edit-button" style="display: inline-block">Edit</button>
+                            </li>
+                        </ul>
                     </div>
                   </div>
                 </div>
 
                 <div class="card">
-                  <div class="card-header" id="headingThree">
-                    <h5 class="mb-0">
-                      <button class="btn collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        M STK LS TF FZ HD PRE-GM &mdash; CT2693-060
-                      </button>
-                    </h5>
+                  <div class="card-header collapsed" id="headingThree" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      <div class="card-title">
+                        CT2693-060 &mdash; M STK LS TF FZ HD PRE-GM 
+                      </div>
                   </div>
                   <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                     <div class="card-body">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item inventoryItem">
+                                <div class="inventoryItem-details">
+                                    <div class="list-group-item-detail" >
+                                        <span class="list-group-item-type">Name: </span>
+                                        <span>M STK LS TF FZ HD PRE-GM</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">UPC: </span>
+                                        <span>194498473931</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">Style: </span>
+                                        <span>CT2693-060</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">Size: </span>
+                                        <span>M</span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary edit-button" style="display: inline-block">Edit</button>
+                            </li>
+                            <li class="list-group-item inventoryItem">
+                                <div class="inventoryItem-details">
+                                    <div class="list-group-item-detail" >
+                                        <span class="list-group-item-type">Name: </span>
+                                        <span>M STK LS TF FZ HD PRE-GM</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">UPC: </span>
+                                        <span>324598498798</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">Style: </span>
+                                        <span>CT2693-060</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">Size: </span>
+                                        <span>L</span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary edit-button" style="display: inline-block">Edit</button>
+                            </li>
+                            <li class="list-group-item inventoryItem">
+                                <div class="inventoryItem-details">
+                                    <div class="list-group-item-detail" >
+                                        <span class="list-group-item-type">Name: </span>
+                                        <span>M STK LS TF FZ HD PRE-GM</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">UPC: </span>
+                                        <span>249834509549</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">Style: </span>
+                                        <span>CT2693-060</span>
+                                    </div>
+                                    <div class="list-group-item-detail">
+                                        <span class="list-group-item-type">Size: </span>
+                                        <span>XL</span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary edit-button" style="display: inline-block">Edit</button>
+                            </li>
+
+                        </ul>
                     </div>
                   </div>
                 </div>

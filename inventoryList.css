@@ -23,6 +23,10 @@
     font-size: 1rem;
 }
 
+.list-group-item-detail {
+    display: inline-block;
+}
+
 .list-group-item-type {
     font-weight: bold;
     margin-left: .5rem;
@@ -34,6 +38,7 @@
 
 #inventoryList-content {
     margin-top: 2rem;
+    margin-bottom: 2rem;
     width: 100%;
 }
 
@@ -45,8 +50,32 @@
 
 .card-header {
     border: none;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+.card-title {
+    margin: 0;
+    padding: .35rem;
+    font-weight: bold;
 }
 
 .collapse {
     width: inherit;
+}
+
+.inventoryItem {
+    display: flex;
+    align-items: center;
+}
+
+.inventoryItem-details {
+    width: 100%;
+}
+
+.edit-button {
+    align-self: end;
+    margin-left: 1rem;
+    height: 2.25rem;
+    width: 4rem;
 }
