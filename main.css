@@ -49,6 +49,7 @@ body {
     color: black;
     padding: .75rem;
     align-self: center;
+    font-weight: bold;
 }
 
 .header-item {
