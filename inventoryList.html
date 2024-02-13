@@ -37,37 +37,82 @@
             </div>
         </div>
     </header>
-    <main>
-        <h4>Recently added items</h3>
-        <ul>
-            <li>Name: Panda Dunks, UPC: 12345678, Style: ABCD-123, Size: 9 </li>
-            <li>Name: Air Max 97, UPC: 87654321, Style: DCBA-321, Size: 13</li>
-        </ul>
-        <button>Add Inventory Item</button>
-        <table>
-            <thead>
-                <tr>
-                <th>Item name</th>
-                <th>UPC</th>
-                <th>Style Code</th>
-                <th>Size</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Panda Dunks</td>
-                    <td>12345678</td>
-                    <td>ABCD-123</td>
-                    <td>9</td>
-                </tr>
-                <tr>
-                    <td>Air Max 97</td>
-                    <td>87654321</td>
-                    <td>DCBA-321</td>
-                    <td>13</td>
-                </tr>
-            </tbody>
-        </table>
+    <main id="main-content">
+        <div id="notification-content">
+            <h4>Recently added items</h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <div style="display: inline-block">
+                            <span class="list-group-item-type">Miles</span>
+                            <span>added &nbsp; &mdash;</span>
+                        </div>
+                        <div style="display: inline-block">
+                            <span class="list-group-item-type">Name: </span>
+                            <span>Panda Dunks</span>
+                        </div>
+                        <div style="display: inline-block">
+                            <span class="list-group-item-type">UPC: </span>
+                            <span>12345678</span>
+                        </div>
+                        <div style="display: inline-block">
+                            <span class="list-group-item-type">Style: </span>
+                            <span>ABCD-123</span>
+                        </div>
+                        <div style="display: inline-block">
+                            <span class="list-group-item-type">Size: </span>
+                            <span>9</span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div style="display: inline-block">
+                            <span class="list-group-item-type">John</span>
+                            <span>added &nbsp; &mdash;</span>
+                        </div>
+                        <div style="display: inline-block">
+                            <span class="list-group-item-type">Name: </span>
+                            <span>Air Max 97</span>
+                        </div>
+                        <div style="display: inline-block">
+                            <span class="list-group-item-type">UPC: </span>
+                            <span>87654321</span>
+                        </div>
+                        <div style="display: inline-block">
+                            <span class="list-group-item-type">Style: </span>
+                            <span>DCBA-321</span>
+                        </div>
+                        <div style="display: inline-block">
+                            <span class="list-group-item-type">Size: </span>
+                            <span>13</span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div style="display: inline-block">
+                            <span class="list-group-item-type">Josh</span>
+                            <span>added &nbsp; &mdash;</span>
+                        </div>
+                        <div style="display: inline-block">
+                            <span class="list-group-item-type">Name: </span>
+                            <span>M STK LS TF FZ HD PRE-GM</span>
+                        </div>
+                        <div style="display: inline-block">
+                            <span class="list-group-item-type">UPC: </span>
+                            <span>194498473931</span>
+                        </div>
+                        <div style="display: inline-block">
+                            <span class="list-group-item-type">Style: </span>
+                            <span>CT2693-060</span>
+                        </div>
+                        <div style="display: inline-block">
+                            <span class="list-group-item-type">Size: </span>
+                            <span>M</span>
+                        </div>
+                    </li>
+                  </ul>
+        </div>
+        <div id="inventoryList-content">
+            <button type="submit" class="btn btn-primary">Add Inventory Item</button>
+            
+        </div>
     </main>
     <footer>
         <p id="name">Miles Spencer</p>
