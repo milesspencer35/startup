@@ -31,8 +31,6 @@ I am going to use the required technologies in the following ways.
 
 ## HTML deliverable
 
-➡️ The following is an example of the required information for the `Startup HTML` deliverable
-
 For this deliverable I built out the structure of my application using HTML.
 
 **HTML Pages** - 3 HTML pages that represent login, counting items, and a list of inventory items
@@ -43,3 +41,14 @@ For this deliverable I built out the structure of my application using HTML.
 **Login** - Input box, password box, and submit button for login.
 **3rd Party Service Call** - This will either be the Disify to valididate the email of the user or a Yo Moma joke generated when the 'Tell me a Yo Mama Joke' button that is on the footer of the inventory List page.
 **WebSocket** - When someone adds a new item it shows up in the recently added item.
+
+## CSS deliverable
+
+For this deliverable I properly styled the application into its final appearance.
+
+**Header, footer, and main content body** - Consistent footer throughout the pages. Counter and InventoryList pages have a consistent header. All page have differing main content. 
+**Navigation elements** - Navigation bar on the counter and inventoryList page allows you navigate through pages and log out.
+**Responsive to window resizing** - App looks good on any device size. Header dynamically changes when the screen width gets too small. On the count page, the grid of counts dynamically formats based on screen width. 
+**Application elements** - Used good whitespace and formatting.
+**Application text content** - Consistent font throughout the page. Text is often formated using flex display. 
+**Application images** - UPC logo is displayed by the website name on each page. 
