@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="main.css" />
     <link rel="stylesheet" href="index.css" />
+    <script src="index.js"></script>
 </head>
 <body>
     <div id="center-content">
@@ -18,15 +19,15 @@
             <img width="75rem" src="barcode.png">
         </header>
         <main id="login">
-            <form method="get" action="counter.html" class="login-form">
+            <div class="login-form">
                 <div class="form-group">
-                  <input type="text" class="form-control login-content" id="exampleInputEmail1" placeholder="Username">
+                  <input type="text" class="form-control login-content" id="InputUsername" placeholder="Username">
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control login-content" id="exampleInputPassword1" placeholder="Password">
+                  <input type="password" class="form-control login-content" id="InputPassword" placeholder="Password">
                 </div>
-                <button type="submit" class="btn btn-primary login-content">Submit</button>
-              </form>
+                <button onclick="login()" class="btn btn-primary login-content">Submit</button>
+            </div>
 
               <a href="#" class="btn btn-outline-dark login-content">Register</a>
         </main>
