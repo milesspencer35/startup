@@ -79,3 +79,15 @@
     height: 2.25rem;
     width: 4rem;
 }
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.form-group span {
+    font-weight: bold;
+    padding-right: .25rem;
+    width: 25%;
+}

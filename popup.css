@@ -30,14 +30,14 @@
     padding-bottom: 1rem;
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
     .popup {
         width: 95%
     }
 }
 
-@media screen and (min-width: 400px) {
+@media screen and (min-width: 500px) {
     .popup {
-        width: 25rem;
+        width: 30rem;
     }
 }
