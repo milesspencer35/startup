@@ -25,7 +25,6 @@ function closeRegisterPopup(type){
 
             // How should I store the users in LocalStorage??
 
-            popup.classList.remove('open-popup');
             window.location.href = "counter.html";
         }
     } else {

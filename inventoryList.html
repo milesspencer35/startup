@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="main.css" />
     <link rel="stylesheet" href="inventoryList.css"/>
+    <link rel="stylesheet" href="popup.css" />
+    <script defer src="inventoryList.js"></script>
 </head>
 <body>
     <header id="page-header">
@@ -110,8 +112,9 @@
                   </ul>
         </div>
         <div id="add-item">
-            <button type="submit" class="btn btn-primary">Add Inventory Item</button>
+            <button onclick="openAddItemPopup()" class="btn btn-primary">Add Inventory Item</button>
         </div>
+
         <div id="inventoryList-content">
             <div id="accordion">
                 <div class="card">
@@ -287,6 +290,23 @@
               </div>
 
 
+        </div>
+
+        <div class="popup" id="popup">
+            <h2>Add Item</h2>
+            <div class="login-form">
+                <div class="form-group">
+                  <input type="text" class="form-control login-content" id="RegisterUsername" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control login-content" id="RegisterEmail" placeholder="Email">
+                  </div>
+                <div class="form-group">
+                  <input type="password" class="form-control login-content" id="RegisterPassword" placeholder="Password">
+                </div>
+                <div id="badInfoMessage"></div>
+                <button onclick="closeRegisterPopup('submit')" class="btn btn-primary login-content">Submit</button>
+                <button onclick="closeRegisterPopup('cancel')" class="btn btn-outline-dark login-content">Cancel</button>
         </div>
     </main>
     <footer>
