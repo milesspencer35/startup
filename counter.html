@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="main.css" />
     <link rel="stylesheet" href="counter.css" />
+    <script defer src="main.js"></script>
 </head>
 <body>
     <header id="page-header">
@@ -25,7 +26,7 @@
                 <a class="header-item" href="index.html">Log out</a>
             </div>
             <div class="dropdown">
-                <i class="bi bi-list dropbtn"></i>
+                <i class="bi bi-list dropbtn" onclick="dropdownClicked()"></i>
                 <div class="dropdown-content">
                     <div class="dropdown-items">
                         <a class="dropdown-item" href="counter.html">Counter</a>
@@ -42,9 +43,9 @@
         <form method="get" class="upc-form">
             <span class="upc-form-item">Input UPC Code</span>
             <div class="form-group upc-form-item">
-              <input type="text" class="form-control" placeholder="UPC code">
+              <input type="text" class="form-control" placeholder="UPC code" style="font-size: 1.25rem;">
             </div>
-            <button type="submit" class="btn btn-primary upc-form-item">Add</button>
+            <button class="btn btn-primary upc-form-item" style=" border-radius: .5rem; font-size: 1.5rem;">Add</button>
         </form>
         <div id="count-content">
             <span id="count-title">Count</span>

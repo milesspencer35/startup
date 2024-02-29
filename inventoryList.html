@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="inventoryList.css"/>
     <link rel="stylesheet" href="popup.css" />
     <script defer src="inventoryList.js"></script>
+    <script defer src="main.js"></script>
 </head>
 <body>
     <header id="page-header">
@@ -27,7 +28,7 @@
                 <a class="header-item" href="index.html">Log out</a>
             </div>
             <div class="dropdown">
-                <i class="bi bi-list dropbtn"></i>
+                <i class="bi bi-list dropbtn" onclick="dropdownClicked()"></i>
                 <div class="dropdown-content">
                     <div class="dropdown-items">
                         <a class="dropdown-item" href="counter.html">Counter</a>
@@ -295,18 +296,25 @@
         <div class="popup" id="popup">
             <h2>Add Item</h2>
             <div class="login-form">
-                <div class="form-group">
-                  <input type="text" class="form-control login-content" id="RegisterUsername" placeholder="Username">
+                <div class="form-group" style="display: flex; flex-direction: row;">
+                    <span>Name:</span>
+                    <input type="text" class="form-control login-content" id="newItemName" placeholder="Name">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control login-content" id="RegisterEmail" placeholder="Email">
+                    <span>UPC:</span>
+                    <input type="text" class="form-control login-content" id="newItemUPC" placeholder="UPC">
                   </div>
                 <div class="form-group">
-                  <input type="password" class="form-control login-content" id="RegisterPassword" placeholder="Password">
+                    <span>Style:</span>
+                    <input type="text" class="form-control login-content" id="newItemStyle" placeholder="Style code">
+                </div>
+                <div class="form-group">
+                    <span>Size:</span>
+                    <input type="text" class="form-control login-content" id="newItemSize" placeholder="Size">
                 </div>
                 <div id="badInfoMessage"></div>
-                <button onclick="closeRegisterPopup('submit')" class="btn btn-primary login-content">Submit</button>
-                <button onclick="closeRegisterPopup('cancel')" class="btn btn-outline-dark login-content">Cancel</button>
+                <button onclick="closeAddItemPopup('submit')" class="btn btn-primary login-content">Submit</button>
+                <button onclick="closeAddItemPopup('cancel')" class="btn btn-outline-dark login-content">Cancel</button>
         </div>
     </main>
     <footer>

@@ -5,6 +5,6 @@ function openAddItemPopup() {
 }
 
 function closeAddItemPopup(){
-    
+    popup.classList.remove('open-popup');    
 
 }
