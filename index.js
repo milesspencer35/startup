@@ -1,12 +1,4 @@
-
-function login() {
-
-    // Test to see if the username and password are already in system.
-
-    window.location.href = "counter.html";
-}
-  
-let popup = document.getElementById('popup');
+  let popup = document.getElementById('popup');
 
 function openRegisterPopup() {
     popup.classList.add('open-popup');
@@ -15,6 +7,19 @@ function openRegisterPopup() {
 let existingUsersText = localStorage.getItem('users');
 let existingUsers = JSON.parse(existingUsersText);
 
+function login() {
+    const loginUsername = document.querySelector("#InputUsername");
+    const loginPassword = document.querySelector("#InputPassword");
+    // Test to see if the username and password are already in system.
+    let user = existingUsers.filter(user => user.username === loginUsername.value && user.password === loginPassword.value);
+    if (user.length) {
+        localStorage.setItem("currentUsername", loginUsername.value);
+        window.location.href = "counter.html";
+    }
+
+    
+}
+
 function closeRegisterPopup(type){
     if (type == "submit") {
         const registerUsername = document.querySelector("#RegisterUsername");
@@ -22,7 +27,6 @@ function closeRegisterPopup(type){
         const registerPassword = document.querySelector("#RegisterPassword");
 
         if (!registerUsername.value || !registerEmail.value || !registerPassword.value) { //one filled isn't filled out
-            
             var message = document.querySelector("#badInfoMessage");
             message.textContent = "Please enter a valid username, email, and password";
         } else if (existingUsers && existingUsers.some(item =>  item.username === registerUsername.value)) { //username taken
