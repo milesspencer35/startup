@@ -10,3 +10,9 @@ function dropdownClicked() {
         dropdownOpen = true;
     }
 }
+
+let username = localStorage.getItem("currentUsername");
+let headerUsername = document.querySelector("#header-username");
+headerUsername.textContent = username;
+let dropdownUsername = document.querySelector("#dropdown-username");
+dropdownUsername.textContent = username;
