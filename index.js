@@ -15,6 +15,9 @@ function login() {
     if (user.length) {
         localStorage.setItem("currentUsername", loginUsername.value);
         window.location.href = "counter.html";
+    } else {
+        var message = document.querySelector("#badLoginMessage");
+        message.textContent = "Invalid Login";
     }
 
     
