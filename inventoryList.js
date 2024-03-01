@@ -40,3 +40,43 @@ function saveItem(newItem) {
     currentItems.push(newItem);
     localStorage.setItem('items', JSON.stringify(currentItems));
 }
+
+function loadItems() {
+    let items = [];
+    const itemsText = localStorage.getItem('items');
+    if (itemsText) {
+      items = JSON.parse(itemsText);
+    }
+  
+    const accordionEl = document.querySelector('#accordion');
+    let styles = []
+    items.forEach(item => {
+        if (styles && styles.some(item.style)) {
+            styles.push({[item.style]: item}); // test this
+        }
+    })
+  
+    // if (scores.length) {
+    //   for (const [i, score] of scores.entries()) {
+    //     const positionTdEl = document.createElement('td');
+    //     const nameTdEl = document.createElement('td');
+    //     const scoreTdEl = document.createElement('td');
+    //     const dateTdEl = document.createElement('td');
+  
+    //     positionTdEl.textContent = i + 1;
+    //     nameTdEl.textContent = score.name;
+    //     scoreTdEl.textContent = score.score;
+    //     dateTdEl.textContent = score.date;
+  
+    //     const rowEl = document.createElement('tr');
+    //     rowEl.appendChild(positionTdEl);
+    //     rowEl.appendChild(nameTdEl);
+    //     rowEl.appendChild(scoreTdEl);
+    //     rowEl.appendChild(dateTdEl);
+  
+    //     tableBodyEl.appendChild(rowEl);
+    //   }
+    // } else {
+    //   tableBodyEl.innerHTML = '<tr><td colSpan=4>Be the first to score</td></tr>';
+    // }
+  }
