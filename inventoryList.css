@@ -91,3 +91,7 @@
     padding-right: .25rem;
     width: 25%;
 }
+
+.popup button {
+    margin-top: .5rem;
+}
