@@ -49,12 +49,19 @@ function loadItems() {
     }
   
     const accordionEl = document.querySelector('#accordion');
-    let styles = []
+    let styles = {}
     items.forEach(item => {
-        if (styles && styles.some(item.style)) {
-            styles.push({[item.style]: item}); // test this
+        if (!styles[item.style]) {
+            styles[item.style] = [item];
+        } else {
+            styles[item.style] = [...styles[item.style], item];
         }
-    })
+    });
+    // for (i = 0; i < items.length; i++) {
+    //     styles[items[i]] = [...styles.keys([items[i].style]), items[i]];
+    // }
+
+    console.log(styles);
   
     // if (scores.length) {
     //   for (const [i, score] of scores.entries()) {
@@ -80,3 +87,5 @@ function loadItems() {
     //   tableBodyEl.innerHTML = '<tr><td colSpan=4>Be the first to score</td></tr>';
     // }
   }
+
+  loadItems();
