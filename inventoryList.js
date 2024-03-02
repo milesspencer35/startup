@@ -21,7 +21,9 @@ function closeAddItemPopup(type){
             var message = document.querySelector("#badItemInfoMessage");
             message.textContent = "UPC code already used.";
         } else {
-            this.saveItem({name: newItemName.value, UPC: newItemUPC.value, style: newItemStyle.value, size: newItemSize.value});
+            let username = localStorage.getItem("currentUsername");
+            this.saveItem({name: newItemName.value, UPC: newItemUPC.value, style: newItemStyle.value, size: newItemSize.value, time: Date.now(), user: username});
+            loadItems();
             popup.classList.remove('open-popup');
         }
     } else { //cancel clicked
@@ -48,7 +50,6 @@ function loadItems() {
       items = JSON.parse(itemsText);
     }
   
-    const accordionEl = document.querySelector('#accordion');
     let styles = {}
     items.forEach(item => {
         if (!styles[item.style]) {
@@ -57,35 +58,100 @@ function loadItems() {
             styles[item.style] = [...styles[item.style], item];
         }
     });
-    // for (i = 0; i < items.length; i++) {
-    //     styles[items[i]] = [...styles.keys([items[i].style]), items[i]];
-    // }
 
-    console.log(styles);
-  
-    // if (scores.length) {
-    //   for (const [i, score] of scores.entries()) {
-    //     const positionTdEl = document.createElement('td');
-    //     const nameTdEl = document.createElement('td');
-    //     const scoreTdEl = document.createElement('td');
-    //     const dateTdEl = document.createElement('td');
-  
-    //     positionTdEl.textContent = i + 1;
-    //     nameTdEl.textContent = score.name;
-    //     scoreTdEl.textContent = score.score;
-    //     dateTdEl.textContent = score.date;
-  
-    //     const rowEl = document.createElement('tr');
-    //     rowEl.appendChild(positionTdEl);
-    //     rowEl.appendChild(nameTdEl);
-    //     rowEl.appendChild(scoreTdEl);
-    //     rowEl.appendChild(dateTdEl);
-  
-    //     tableBodyEl.appendChild(rowEl);
-    //   }
-    // } else {
-    //   tableBodyEl.innerHTML = '<tr><td colSpan=4>Be the first to score</td></tr>';
-    // }
+    const accordionEl = document.querySelector('#accordion');
+    accordionEl.innerHTML = "";
+    for (i = 0; i < Object.keys(styles).length; i++) {
+        key = Object.keys(styles)[i];
+        accordionEl.innerHTML = accordionEl.innerHTML + `<div class='card' id='card`+i+`'>
+        <div class='card-header collapsed' id='heading`+ i +`' data-toggle='collapse' data-target='#collapse`+i+`' aria-expanded='true' aria-controls='collapse`+i+`'>
+            <div class='card-title'>
+              `+ key +` &mdash; `+ styles[key][0].name +`
+            </div>
+        </div>
+        <div id="collapse`+i+`" class="collapse" aria-labelledby="heading`+i+`" data-parent="#accordion">
+            <div class="card-body">
+                <div class="card-items">
+                    <ul class="list-group list-group-flush">
+                        `+ addItem(styles, key) +`    
+                    </ul>
+                </div>
+            </div>
+        </div>`;
+
+    }
+  }
+
+  function addItem(styles, key) {
+    itemsHTML = "";
+    styles[key].sort(compareSizes);
+    styles[key].forEach(item => {
+        itemsHTML = itemsHTML + 
+        `<li class="list-group-item inventoryItem">
+            <div class="inventoryItem-details">
+                <div class="list-group-item-detail" >
+                    <span class="list-group-item-type">Name: </span>
+                    <span>`+ item.name +`</span>
+                </div>
+                <div class="list-group-item-detail">
+                    <span class="list-group-item-type">UPC: </span>
+                    <span>`+ item.UPC +`</span>
+                </div>
+                <div class="list-group-item-detail">
+                    <span class="list-group-item-type">Style: </span>
+                    <span>`+ item.style +`</span>
+                </div>
+                <div class="list-group-item-detail">
+                    <span class="list-group-item-type">Size: </span>
+                    <span>`+ item.size +`</span>
+                </div>
+            </div>
+            <button onclick="editItem(item)" type="submit" class="btn btn-primary edit-button" style="display: inline-block">Edit</button>
+        </li>`;
+    });
+
+    return itemsHTML;
+  }
+
+  function editItem(item) {
+    console.log(item);
+    popup.classList.add('open-popup');
+  }
+
+  let weights = {
+    'onesize' : 1,
+    'xxs' : 2,
+    'xs' : 3,
+    's' : 4,
+    'm' : 5,
+    'l' : 6,
+    'xl' : 7,
+    'xxl' : 8,
+    '2xl' : 8,
+    'xxxl' : 9,
+    '3xl' : 9,
+    'xxxxl' : 10,
+    '4xl' : 10
+  }
+
+  function compareSizes(a, b) {
+    console.log(!isNaN(a.size));
+    console.log(!isNaN(b.size));
+    if (!isNaN(a.size) && !isNaN(b.size)) {
+        return compareNumbers(a.size, b.size);
+    } else if (!isNaN(a.size) && isNaN(b.size)) {
+        return -1;
+    } else if (isNaN(a.size) && !isNaN(b.size)) {
+        return 1;
+    } else {
+        a = a.size.toLowerCase();
+        b = b.size.toLowerCase();
+        return weights[a] - weights[b];
+    }
+  }
+
+  function compareNumbers(a, b) {
+    return a - b;
   }
 
   loadItems();
