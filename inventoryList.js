@@ -1,11 +1,68 @@
+// get items
+let items = [];
+const itemsText = localStorage.getItem('items');
+if (itemsText) {
+    items = JSON.parse(itemsText);
+}
+
+// Recently added
+
+let recentlyAddedPopup = document.getElementById('recentlyAddedPopup');
+
+function openRecentlyAddedPopup () {
+    recentlyAddedPopup.classList.add('open-popup');
+}
+
+function closeRecentlyAddedPopup () {
+    recentlyAddedPopup.classList.remove('open-popup');
+}
+
+
+
+function loadRecentlyAdded() {
+    let items = [];
+    const itemsText = localStorage.getItem('items');
+    if (itemsText) {
+        items = JSON.parse(itemsText);
+    }
+    let recentlyAddedItems = items.slice(items.length >= 10 ? items.length - 10 : 0,  items.length).toReversed();
+
+    const recentlyAddedListEl = document.querySelector('#recentlyAddedList');
+    recentlyAddedListEl.innerHTML = "";
+    recentlyAddedItems.forEach((item) => {
+        recentlyAddedListEl.innerHTML = recentlyAddedListEl.innerHTML + `
+        <li class="list-group-item">
+            <div class="list-group-item-detail">
+                <span class="list-group-item-type">`+ item.user+`</span>
+                <span>added &nbsp; &mdash;</span>
+            </div>
+            <div class="list-group-item-detail">
+                <span class="list-group-item-type">Name: </span>
+                <span>`+item.name+`</span>
+            </div>
+            <div class="list-group-item-detail">
+                <span class="list-group-item-type">UPC: </span>
+                <span>`+item.UPC+`</span>
+            </div>
+            <div class="list-group-item-detail">
+                <span class="list-group-item-type">Style: </span>
+                <span>`+item.style+`</span>
+            </div>
+            <div class="list-group-item-detail">
+                <span class="list-group-item-type">Size: </span>
+                <span>`+item.size+`</span>
+            </div>
+        </li>`;
+    });
+    console.log(recentlyAddedListEl.innerHTML);
+}
+
+// Add item
 let popup = document.getElementById('popup');
 
 function openAddItemPopup() {
     popup.classList.add('open-popup');
 }
-
-let itemsText = localStorage.getItem('items');
-let items = JSON.parse(itemsText);
 
 function closeAddItemPopup(type){
     if (type == "add") {
@@ -24,6 +81,7 @@ function closeAddItemPopup(type){
             let username = localStorage.getItem("currentUsername");
             this.saveItem({name: newItemName.value, UPC: newItemUPC.value, style: newItemStyle.value, size: newItemSize.value, time: Date.now(), user: username});
             loadItems();
+            loadRecentlyAdded();
             popup.classList.remove('open-popup');
         }
     } else { //cancel clicked
@@ -43,11 +101,12 @@ function saveItem(newItem) {
     localStorage.setItem('items', JSON.stringify(currentItems));
 }
 
+// Accordian
 function loadItems() {
     let items = [];
     const itemsText = localStorage.getItem('items');
     if (itemsText) {
-      items = JSON.parse(itemsText);
+        items = JSON.parse(itemsText);
     }
   
     let styles = {}
@@ -114,7 +173,6 @@ function loadItems() {
   }
 
   function editItem(item) {
-    console.log(item);
     popup.classList.add('open-popup');
   }
 
@@ -135,8 +193,6 @@ function loadItems() {
   }
 
   function compareSizes(a, b) {
-    console.log(!isNaN(a.size));
-    console.log(!isNaN(b.size));
     if (!isNaN(a.size) && !isNaN(b.size)) {
         return compareNumbers(a.size, b.size);
     } else if (!isNaN(a.size) && isNaN(b.size)) {
@@ -154,4 +210,5 @@ function loadItems() {
     return a - b;
   }
 
+  loadRecentlyAdded();
   loadItems();
