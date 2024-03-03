@@ -1,8 +1,14 @@
+body {
+    height: fit-content;
+}
+
 #center-content {
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
+    height: fit-content;
+    min-height: 100%;
 }
 
 .upc-form {

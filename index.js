@@ -1,4 +1,4 @@
-  let popup = document.getElementById('popup');
+let popup = document.getElementById('popup');
 
 function openRegisterPopup() {
     popup.classList.add('open-popup');
