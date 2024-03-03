@@ -71,4 +71,9 @@ function displayCounts() {
     });
 }
 
+function resetCount () {
+    localStorage.removeItem('count');
+    displayCounts();
+}
+
 displayCounts();
