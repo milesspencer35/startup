@@ -43,10 +43,11 @@
     <main id="center-content">
         <div class="upc-form">
             <span class="upc-form-item">Input UPC Code</span>
-            <div class="form-group upc-form-item">
+            <form class="form-group upc-form-item" action="javascript:countItem()">
               <input type="text" id="inputUPC" class="form-control" placeholder="UPC code" style="font-size: 1.25rem;">
-            </div>
+            </form>
             <button onclick="countItem()" class="btn btn-primary upc-form-item" style=" border-radius: .5rem; font-size: 1.5rem;">Add</button>
+            <div id="InputMessage" style="height: 1.5rem; font-size: 1.5rem; font-weight: bold;"></div>
         </div>
         <div id="count-content">
             <span id="count-title">Count</span>

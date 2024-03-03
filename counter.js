@@ -18,6 +18,14 @@ function countItem() {
         count = new Map(Object.entries(JSON.parse(countText)));
     }
 
+    if (!itemsMap.get(upcCode)) {
+        let inputMessage = document.querySelector('#InputMessage');
+        inputMessage.style.color = '#ff0800';
+        inputMessage.textContent = "UPC not found in Inventory";
+        setTimeout(() => {inputMessage.textContent = ""}, "3000");
+        return null;
+    }
+
     let countItem = null;
     if (!count.get(upcCode)) {
         countItem = itemsMap.get(upcCode);
@@ -29,6 +37,10 @@ function countItem() {
 
     count.set(upcCode, countItem);
     localStorage.setItem("count", JSON.stringify(Object.fromEntries(count)));
+    let inputMessage = document.querySelector('#InputMessage');
+    inputMessage.style.color = '#4cbb17';
+    inputMessage.textContent = "Counted";
+    setTimeout(() => {inputMessage.textContent = ""}, "3000");
     inputUPC.value = "";
     displayCounts();
 }
