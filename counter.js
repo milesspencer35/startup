@@ -2,9 +2,12 @@ let itemsText = localStorage.getItem("items");
 let itemsList = JSON.parse(itemsText);
 
 const itemsMap = new Map();
-itemsList.forEach((item) => {
+if (!!itemsList) {
+    itemsList.forEach((item) => {
     itemsMap.set(item.UPC, item);
-});
+    });
+}
+
 
 
 
