@@ -17,7 +17,37 @@ function closeRecentlyAddedPopup () {
     recentlyAddedPopup.classList.remove('open-popup');
 }
 
+function mockWebsocket () {
+    setInterval(() => {
+        const recentlyAddedListEl = document.querySelector('#recentlyAddedList');
+        
+        recentlyAddedListEl.innerHTML = `
+        <li class="list-group-item">
+            <div class="list-group-item-detail">
+                <span class="list-group-item-type">Josh</span>
+                <span>added &nbsp; &mdash;</span>
+            </div>
+            <div class="list-group-item-detail">
+                <span class="list-group-item-type">Name: </span>
+                <span>BYU Jacket</span>
+            </div>
+            <div class="list-group-item-detail">
+                <span class="list-group-item-type">UPC: </span>
+                <span>123</span>
+            </div>
+            <div class="list-group-item-detail">
+                <span class="list-group-item-type">Style: </span>
+                <span>ABCD-321</span>
+            </div>
+            <div class="list-group-item-detail">
+                <span class="list-group-item-type">Size: </span>
+                <span>M</span>
+            </div>
+        </li>` + recentlyAddedListEl.innerHTML;
+      }, 10000);
+}
 
+mockWebsocket();
 
 function loadRecentlyAdded() {
     let items = [];
@@ -54,7 +84,6 @@ function loadRecentlyAdded() {
             </div>
         </li>`;
     });
-    console.log(recentlyAddedListEl.innerHTML);
 }
 
 // Add item
