@@ -95,6 +95,12 @@ function openAddItemPopup() {
 
 function closeAddItemPopup(type){
     if (type == "add") {
+        let items = [];
+        const itemsText = localStorage.getItem('items');
+        if (itemsText) {
+            items = JSON.parse(itemsText);
+        }
+        
         const newItemName = document.querySelector("#newItemName");
         const newItemUPC = document.querySelector("#newItemUPC");
         const newItemStyle = document.querySelector("#newItemStyle");

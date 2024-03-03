@@ -11,6 +11,10 @@ function login() {
     const loginUsername = document.querySelector("#InputUsername");
     const loginPassword = document.querySelector("#InputPassword");
     // Test to see if the username and password are already in system.
+    if (!existingUsers) {
+        var message = document.querySelector("#badLoginMessage");
+        message.textContent = "Invalid Login";
+    }
     let user = existingUsers.filter(user => user.username === loginUsername.value && user.password === loginPassword.value);
     if (user.length) {
         localStorage.setItem("currentUsername", loginUsername.value);
