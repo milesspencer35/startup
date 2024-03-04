@@ -255,10 +255,12 @@ function closeEditItemPopup(type) {
         if (countText) {
             let count = new Map(Object.entries(JSON.parse(countText)));
             oldCountItem = count.get(editItem.UPC);
-            count.delete(editItem.UPC);
-            editedItem.count = oldCountItem.count;
-            count.set(editedItem.UPC, editedItem);
-            localStorage.setItem("count", JSON.stringify(Object.fromEntries(count)));
+            if (!!oldCountItem) {
+                count.delete(editItem.UPC);
+                editedItem.count = oldCountItem.count;
+                count.set(editedItem.UPC, editedItem);
+                localStorage.setItem("count", JSON.stringify(Object.fromEntries(count)));
+            } 
         }
     } else if (type === "delete") {
         // Remove from items
