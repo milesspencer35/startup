@@ -59,3 +59,4 @@ https://www.disify.com/
 * Auto focus on upc input box
 * Make sure it auto submits with upc scanner
 * background disabled when popups open
+* make the dropdown menu when screen is small, a little bigger
