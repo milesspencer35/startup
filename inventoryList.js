@@ -252,9 +252,8 @@ function closeEditItemPopup(type) {
         loadRecentlyAdded();
         //Update count object
         let countText = localStorage.getItem("count");
-        let count = null;
         if (countText) {
-            count = new Map(Object.entries(JSON.parse(countText)));
+            let count = new Map(Object.entries(JSON.parse(countText)));
             oldCountItem = count.get(editItem.UPC);
             count.delete(editItem.UPC);
             editedItem.count = oldCountItem.count;
@@ -262,7 +261,18 @@ function closeEditItemPopup(type) {
             localStorage.setItem("count", JSON.stringify(Object.fromEntries(count)));
         }
     } else if (type === "delete") {
-
+        // Remove from items
+        items.splice(editItemIndex, 1);
+        localStorage.setItem('items', JSON.stringify(items));
+        loadItems();
+        loadRecentlyAdded();
+        // Remove from count
+        let countText = localStorage.getItem("count");
+        if (countText) { 
+            let count = new Map(Object.entries(JSON.parse(countText)));
+            count.delete(editItem.UPC);
+            localStorage.setItem("count", JSON.stringify(Object.fromEntries(count)));
+        }
     }
     editItemPopup.classList.remove('open-popup');
 }
