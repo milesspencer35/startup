@@ -60,3 +60,4 @@ https://www.disify.com/
 * Make sure it auto submits with upc scanner
 * background disabled when popups open
 * make the dropdown menu when screen is small, a little bigger
+* make it so all comparisons of letters don't depend on case: username, style code, etc.

@@ -52,3 +52,12 @@ For this deliverable I properly styled the application into its final appearance
 **Application elements** - Used good whitespace and formatting.
 **Application text content** - Consistent font throughout the page. Text is often formated using flex display. 
 **Application images** - UPC logo is displayed by the website name on each page. 
+
+## JavaScript deliverable
+
+For this deliverable I implemented by JavaScript so that the application works for a single user. I also added placeholders for future technology.
+
+**Login** - In order to login you must first register your username and password. On successful log in you go to counter page.
+**Database** - Displays counts on counter page and inventory items on inventory list page. Currently this is stored and retrieved from local storage, but it will be replaced with the database data later.
+**WebSocket** - I used the setInterval function to periodically add a entry to the recently added/edited popup. This will be replaced with WebSocket entries later.
+**Application Logic** - Ability to add, edit, and delete items. Once a item is saved in the inventory you can create a count of it.
