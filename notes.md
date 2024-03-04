@@ -51,3 +51,11 @@
 https://github.com/beanboi7/yomomma-apiv2/blob/master/README.md
 
 https://www.disify.com/
+
+
+## App todos 
+* Make all forms submit on enter
+* confirmation popup on reset count and delete item
+* Auto focus on upc input box
+* Make sure it auto submits with upc scanner
+* background disabled when popups open
