@@ -114,7 +114,7 @@ function closeAddItemPopup(type){
             message.textContent = "UPC code already used.";
         } else {
             let username = localStorage.getItem("currentUsername");
-            this.saveItem({name: newItemName.value, UPC: newItemUPC.value, style: newItemStyle.value, size: newItemSize.value, time: Date.now(), user: username});
+            this.saveItem({name: newItemName.value, UPC: newItemUPC.value, style: newItemStyle.value, size: newItemSize.value, user: username});
             loadItems();
             loadRecentlyAdded();
             popup.classList.remove('open-popup');
@@ -174,9 +174,9 @@ function loadItems() {
         </div>`;
 
     }
-  }
+}
 
-  function addItem(styles, key) {
+function addItem(styles, key) {
     itemsHTML = "";
     styles[key].sort(compareSizes);
     styles[key].forEach(item => {
@@ -200,18 +200,74 @@ function loadItems() {
                     <span>`+ item.size +`</span>
                 </div>
             </div>
-            <button onclick="editItem(item)" type="submit" class="btn btn-primary edit-button" style="display: inline-block">Edit</button>
+            <button onclick="openEditItemPopup(`+item.UPC+`)" type="submit" class="btn btn-primary edit-button" style="display: inline-block">Edit</button>
         </li>`;
     });
 
     return itemsHTML;
-  }
+}
 
-  function editItem(item) {
-    popup.classList.add('open-popup');
-  }
+let editItemPopup = document.getElementById('editItemPopup');
+const editItemName = document.querySelector("#editItemName");
+const editItemUPC = document.querySelector("#editItemUPC");
+const editItemStyle = document.querySelector("#editItemStyle");
+const editItemSize = document.querySelector("#editItemSize");
 
-  let weights = {
+let editItem = {};
+
+function openEditItemPopup(UPC) {
+    let items = [];
+    const itemsText = localStorage.getItem('items');
+    if (itemsText) {
+        items = JSON.parse(itemsText);
+    }
+
+    editItem = items.find((item) => item.UPC === UPC.toString());
+
+
+    editItemName.value = editItem.name;
+    editItemUPC.value = editItem.UPC;
+    editItemStyle.value = editItem.style;
+    editItemSize.value = editItem.size;
+    editItemPopup.classList.add('open-popup');
+}
+
+function closeEditItemPopup(type) {
+    let items = [];
+    const itemsText = localStorage.getItem('items');
+    if (itemsText) {
+        items = JSON.parse(itemsText);
+    }
+
+    let editItemIndex = items.findIndex((item) => item.UPC == editItem.UPC);
+
+    if (type === "confirm") {
+        let editedItem = {name: editItemName.value, UPC: editItemUPC.value, style: editItemStyle.value, size: editItemSize.value, user: localStorage.getItem('currentUsername')};
+        items.splice(editItemIndex, 1, editedItem);
+        localStorage.setItem('items', JSON.stringify(items));
+        
+        //reload inventory
+        loadItems();
+        //reload recently added
+        loadRecentlyAdded();
+        //Update count object
+        let countText = localStorage.getItem("count");
+        let count = null;
+        if (countText) {
+            count = new Map(Object.entries(JSON.parse(countText)));
+            oldCountItem = count.get(editItem.UPC);
+            count.delete(editItem.UPC);
+            editedItem.count = oldCountItem.count;
+            count.set(editedItem.UPC, editedItem);
+            localStorage.setItem("count", JSON.stringify(Object.fromEntries(count)));
+        }
+    } else if (type === "delete") {
+
+    }
+    editItemPopup.classList.remove('open-popup');
+}
+
+let weights = {
     'onesize' : 1,
     'xxs' : 2,
     'xs' : 3,
@@ -225,9 +281,9 @@ function loadItems() {
     '3xl' : 9,
     'xxxxl' : 10,
     '4xl' : 10
-  }
+}
 
-  function compareSizes(a, b) {
+function compareSizes(a, b) {
     if (!isNaN(a.size) && !isNaN(b.size)) {
         return compareNumbers(a.size, b.size);
     } else if (!isNaN(a.size) && isNaN(b.size)) {
@@ -239,11 +295,11 @@ function loadItems() {
         b = b.size.toLowerCase();
         return weights[a] - weights[b];
     }
-  }
+}
 
-  function compareNumbers(a, b) {
+function compareNumbers(a, b) {
     return a - b;
-  }
+}
 
-  loadRecentlyAdded();
-  loadItems();
+loadRecentlyAdded();
+loadItems();
