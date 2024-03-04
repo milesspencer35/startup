@@ -42,7 +42,7 @@
     </header>
     <main id="main-content">
         <div id="notification-content">
-            <h4 style="margin-bottom: 0; padding-right: .5rem;">Recently added items:</h4>
+            <h5 style="margin-bottom: 0; padding-right: .5rem;">Recently added/edited items:</h5>
             <i class="bi bi-card-list" onclick="openRecentlyAddedPopup()"></i>
         </div>
         <div id="add-item">
@@ -52,7 +52,7 @@
             <div id="accordion">  
             </div>
         </div>
-
+        <!--Add Item popup-->
         <div class="popup" id="popup">
             <h2>Add Item</h2>
             <div class="login-form">
@@ -76,12 +76,39 @@
                 <button onclick="closeAddItemPopup('add')" class="btn btn-primary login-content">Add</button>
                 <button onclick="closeAddItemPopup('cancel')" class="btn btn-outline-dark login-content">Cancel</button>
         </div>
+        <!--Recently Added Popup-->
         <div class="popup" id="recentlyAddedPopup">
-            <h4 style="padding-top: .5rem;">Recently added items</h4>
+            <h4 style="padding-top: .5rem;">Recently added/edited items</h4>
             <ul class="list-group list-group-flush" id="recentlyAddedList">
             </ul>
             <button onclick="closeRecentlyAddedPopup('cancel')" class="btn btn-outline-dark login-content">Close</button>
         </div>
+
+        <!--Edit Item Popup-->
+        <div class="popup" id="editItemPopup">
+            <h2>Edit Item</h2>
+            <div class="login-form">
+                <div class="form-group" style="display: flex; flex-direction: row;">
+                    <span>Name:</span>
+                    <input type="text" class="form-control login-content" id="editItemName" placeholder="Name">
+                </div>
+                <div class="form-group">
+                    <span>UPC:</span>
+                    <input type="text" class="form-control login-content" id="editItemUPC" placeholder="UPC">
+                  </div>
+                <div class="form-group">
+                    <span>Style:</span>
+                    <input type="text" class="form-control login-content" id="editItemStyle" placeholder="Style code">
+                </div>
+                <div class="form-group">
+                    <span>Size:</span>
+                    <input type="text" class="form-control login-content" id="editItemSize" placeholder="Size">
+                </div>
+                <div id="badEditInfoMessage"></div>
+                <button onclick="closeEditItemPopup('confirm')" class="btn btn-primary login-content">Confirm</button>
+                <button onclick="closeEditItemPopup('cancel')" class="btn btn-outline-dark login-content">Cancel</button>
+            </div>
+            <button class="btn btn-danger" style="font-size: .75rem; margin-top: 1rem;">Delete Item</button>
     </main>
     <footer>
         <p id="name">Miles Spencer</p>
