@@ -61,3 +61,6 @@ https://www.disify.com/
 * background disabled when popups open
 * make the dropdown menu when screen is small, a little bigger
 * make it so all comparisons of letters don't depend on case: username, style code, etc.
+* Counts are orders by style code
+* vibrations on successful add and unsuccessful all
+* Ability to remove a single count
