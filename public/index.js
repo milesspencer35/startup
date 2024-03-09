@@ -19,7 +19,8 @@ async function login() {
         return null;
     }
 
-    localStorage.setItem("currentUsername", loginUsername);
+    await setCurrentUser(loginUsername);
+    // localStorage.setItem("currentUsername", loginUsername);
     window.location.href = "counter.html";
 }
 
@@ -50,7 +51,8 @@ async function closeRegisterPopup(type){
                   body: JSON.stringify(newUser),
                 });
 
-                localStorage.setItem("currentUsername", registerUsername);
+                // localStorage.setItem("currentUsername", registerUsername);
+                await setCurrentUser(registerUsername);
                 window.location.href = "counter.html";
               } catch (e) {
                 console.log("Error", e.message());
@@ -86,4 +88,16 @@ async function getUser(username) {
 
     user = users.find((user) => user.username === username);
     return user;
+}
+
+async function setCurrentUser(username) {
+    try {
+        const response = await fetch('/api/setCurrentUser', {
+            method: 'PUT',
+            headers: {'content-type': 'application/json'},
+            body: JSON.stringify({'username': username}),
+        })
+    } catch (e) {
+        console.log("Current User Error: ",e.message);
+    }
 }

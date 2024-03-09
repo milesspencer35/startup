@@ -26,10 +26,14 @@ apiRouter.get('/users', (req, res) => {
   res.send(users);
 });
 // Set Current User
-apiRouter.put('/currentUser', (req, res) => {
-  currentUser = req.body;
+apiRouter.put('/setCurrentUser', (req, res) => {
+  currentUser = req.body.username;
   res.send(currentUser);
 });
+// Get Current User
+apiRouter.get('/getCurrentUser', (req, res) => {
+  res.send(currentUser);
+})
 
 
 // Return the application's default page if the path is unknown
