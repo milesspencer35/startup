@@ -7,42 +7,54 @@ function openRegisterPopup() {
 let existingUsersText = localStorage.getItem('users');
 let existingUsers = JSON.parse(existingUsersText);
 
-function login() {
-    const loginUsername = document.querySelector("#InputUsername");
-    const loginPassword = document.querySelector("#InputPassword");
-    // Test to see if the username and password are already in system.
-    if (!existingUsers) {
+async function login() {
+    const loginUsername = document.querySelector("#InputUsername").value;
+    const loginPassword = document.querySelector("#InputPassword").value;
+    
+    let user = await getUser(loginUsername);    
+
+    if (!user || user.password !== loginPassword) {
         var message = document.querySelector("#badLoginMessage");
         message.textContent = "Invalid Login";
-    }
-    let user = existingUsers.filter(user => user.username === loginUsername.value && user.password === loginPassword.value);
-    if (user.length) {
-        localStorage.setItem("currentUsername", loginUsername.value);
-        window.location.href = "counter.html";
-    } else {
-        var message = document.querySelector("#badLoginMessage");
-        message.textContent = "Invalid Login";
+        return null;
     }
 
-    
+    localStorage.setItem("currentUsername", loginUsername);
+    window.location.href = "counter.html";
 }
 
-function closeRegisterPopup(type){
+async function closeRegisterPopup(type){
     if (type == "submit") {
-        const registerUsername = document.querySelector("#RegisterUsername");
-        const registerEmail = document.querySelector("#RegisterEmail");
-        const registerPassword = document.querySelector("#RegisterPassword");
+        const registerUsername = document.querySelector("#RegisterUsername").value;
+        const registerEmail = document.querySelector("#RegisterEmail").value;
+        const registerPassword = document.querySelector("#RegisterPassword").value;
 
-        if (!registerUsername.value || !registerEmail.value || !registerPassword.value) { //one filled isn't filled out
+        if (!registerUsername || !registerEmail || !registerPassword ) { //one filled isn't filled out
             var message = document.querySelector("#badInfoMessage");
             message.textContent = "Please enter a valid username, email, and password";
-        } else if (existingUsers && existingUsers.some(item =>  item.username === registerUsername.value)) { //username taken
+            return null;
+        }
+
+        user = await getUser(registerUsername);
+
+        if (user !== undefined) {
             var message = document.querySelector("#badInfoMessage");
             message.textContent = "That username is already taken, please choose a different one.";
         } else {
-            this.saveUser({username: registerUsername.value, email: registerEmail.value, password:registerPassword.value});
-            localStorage.setItem("currentUsername", registerUsername.value);
-            window.location.href = "counter.html";
+            let newUser = {username: registerUsername, email: registerEmail, password: registerPassword};
+
+            try {
+                await fetch('/api/register', {
+                  method: 'POST',
+                  headers: {'content-type': 'application/json'},
+                  body: JSON.stringify(newUser),
+                });
+
+                localStorage.setItem("currentUsername", registerUsername);
+                window.location.href = "counter.html";
+              } catch (e) {
+                console.log("Error", e.message());
+              }
         }
     } else { //cancel clicked
         var message = document.querySelector("#badInfoMessage");
@@ -59,4 +71,19 @@ function saveUser(newUser) {
     }
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
+}
+
+async function getUser(username) {
+    let users = null
+    try {
+        const response = await fetch('/api/users');
+        
+        users = await response.json();
+    } catch (e) {
+        console.log("Error", e.message);
+        return null;
+    }
+
+    user = users.find((user) => user.username === username);
+    return user;
 }
