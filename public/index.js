@@ -79,7 +79,6 @@ async function getUser(username) {
     let users = null
     try {
         const response = await fetch('/api/users');
-        
         users = await response.json();
     } catch (e) {
         console.log("Error", e.message);

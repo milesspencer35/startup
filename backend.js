@@ -32,6 +32,7 @@ apiRouter.put('/setCurrentUser', (req, res) => {
 });
 // Get Current User
 apiRouter.get('/getCurrentUser', (req, res) => {
+  res.type('text/plain');
   res.send(currentUser);
 })
 
