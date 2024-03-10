@@ -1,32 +1,30 @@
-let itemsText = localStorage.getItem("items");
-let itemsList = JSON.parse(itemsText);
 
-const itemsMap = new Map();
-if (!!itemsList) {
-    itemsList.forEach((item) => {
-    itemsMap.set(item.UPC, item);
+let itemsMap = null;
+getItemsMap().then(() => displayCounts());
+
+async function getItemsMap() {
+    const response = await fetch('/api/items');
+    items = await response.json();
+    itemsMap = new Map();
+    items.forEach((item) => {
+        itemsMap.set(item.UPC, item);
     });
 }
-
-
-
 
 const inputUPC = document.querySelector("#inputUPC");
 function countItem() {
     upcCode = inputUPC.value;
 
+    if (!itemsMap.get(upcCode)) {
+        showMessage('error');
+        return null;
+    }
+
+    //let count = getCount();
     let count = new Map();
     const countText = localStorage.getItem('count');
     if (countText) {
         count = new Map(Object.entries(JSON.parse(countText)));
-    }
-
-    if (!itemsMap.get(upcCode)) {
-        let inputMessage = document.querySelector('#InputMessage');
-        inputMessage.style.color = '#ff0800';
-        inputMessage.textContent = "UPC not found in Inventory";
-        setTimeout(() => {inputMessage.textContent = ""}, "3000");
-        return null;
     }
 
     let countItem = null;
@@ -40,12 +38,23 @@ function countItem() {
 
     count.set(upcCode, countItem);
     localStorage.setItem("count", JSON.stringify(Object.fromEntries(count)));
-    let inputMessage = document.querySelector('#InputMessage');
-    inputMessage.style.color = '#4cbb17';
-    inputMessage.textContent = "Counted";
-    setTimeout(() => {inputMessage.textContent = ""}, "3000");
+
+    showMessage('success');
     inputUPC.value = "";
     displayCounts();
+}
+
+function showMessage(type) {
+    let inputMessage = document.querySelector('#InputMessage');
+    if (type === 'success') {
+        
+        inputMessage.style.color = '#4cbb17';
+        inputMessage.textContent = "Counted";
+    } else {
+        inputMessage.style.color = '#ff0800';
+        inputMessage.textContent = "UPC not found in Inventory";
+    }
+    setTimeout(() => {inputMessage.textContent = ""}, "3000");
 }
 
 function displayCounts() {
@@ -91,4 +100,8 @@ function resetCount () {
     displayCounts();
 }
 
-displayCounts();
+async function getCount() {
+    const response = await fetch('/api/count');
+    count = await response.json();
+    return count;
+}
