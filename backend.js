@@ -39,12 +39,13 @@ apiRouter.get('/getCurrentUser', (req, res) => {
 // Count services //
 
 //getCount
-apiRouter.get('count', (req, res) => {
-  res.send(count);
+apiRouter.get('/count', (req, res) => {
+  res.send(Object.fromEntries(count));
 });
 //updateCount
-apiRouter.put('/updateCount', (req, res) => {
-  count = new Map(Object.entries(JSON.parse(req.body)));
+apiRouter.post('/updateCount', (req, res) => {
+  count = new Map(Object.entries(req.body));
+  res.send(Object.fromEntries(count));
 });
 //deleteCount
 apiRouter.delete('/deleteCount', (req, res) => {

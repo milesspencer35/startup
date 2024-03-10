@@ -12,7 +12,7 @@ async function getItemsMap() {
 }
 
 const inputUPC = document.querySelector("#inputUPC");
-function countItem() {
+async function countItem() {
     upcCode = inputUPC.value;
 
     if (!itemsMap.get(upcCode)) {
@@ -20,12 +20,8 @@ function countItem() {
         return null;
     }
 
-    //let count = getCount();
-    let count = new Map();
-    const countText = localStorage.getItem('count');
-    if (countText) {
-        count = new Map(Object.entries(JSON.parse(countText)));
-    }
+    // Work here next
+    let count = await getCount();
 
     let countItem = null;
     if (!count.get(upcCode)) {
@@ -37,11 +33,16 @@ function countItem() {
     }
 
     count.set(upcCode, countItem);
-    localStorage.setItem("count", JSON.stringify(Object.fromEntries(count)));
+
+    await fetch('/api/updateCount', {
+        method: 'POST',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify(Object.fromEntries(count)),
+    });
 
     showMessage('success');
     inputUPC.value = "";
-    displayCounts();
+    displayCounts(count);
 }
 
 function showMessage(type) {
@@ -57,14 +58,12 @@ function showMessage(type) {
     setTimeout(() => {inputMessage.textContent = ""}, "3000");
 }
 
-function displayCounts() {
+async function displayCounts(count) {
     countItems = document.querySelector("#count-items");
     countItems.innerHTML = "";
 
-    let count = new Map();
-    const countText = localStorage.getItem('count');
-    if (countText) {
-        count = new Map(Object.entries(JSON.parse(countText)));
+    if (!count) {
+        count = await getCount();
     }
 
     count.forEach((item) => {
@@ -95,13 +94,16 @@ function displayCounts() {
     });
 }
 
-function resetCount () {
-    localStorage.removeItem('count');
-    displayCounts();
+async function resetCount () {
+    await fetch('/api/deleteCount', {
+        method: 'DELETE',
+    });
+    count = new Map();
+    displayCounts(count);
 }
 
 async function getCount() {
     const response = await fetch('/api/count');
     count = await response.json();
-    return count;
+    return new Map(Object.entries(count));
 }
