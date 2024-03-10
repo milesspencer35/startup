@@ -260,15 +260,11 @@ async function openEditItemPopup(UPC) {
 }
 
 async function closeEditItemPopup(type) {
-    //let items = await getItems();
-    
-
-    //let editItemIndex = items.findIndex((item) => item.UPC == editItem.UPC);
 
     if (type === "confirm") {
         let editedItem = {name: editItemName.value, UPC: editItemUPC.value, style: editItemStyle.value, size: editItemSize.value};
 
-        const response = await fetch('/api/updateItem', {
+        const response = await fetch('/api/editItem', {
             method: 'PATCH',
             headers: {'content-type': 'application/json'},
             body: JSON.stringify({item: editedItem, oldUPC: editItem.UPC}),
@@ -293,11 +289,17 @@ async function closeEditItemPopup(type) {
             } 
         }
     } else if (type === "delete") {
-        // Remove from items
-        items.splice(editItemIndex, 1);
-        localStorage.setItem('items', JSON.stringify(items));
-        loadItems();
-        loadRecentlyAdded();
+
+        const response = await fetch('/api/deleteItem', {
+            method: 'PATCH',
+            headers: {'content-type': 'application/json'},
+            body: JSON.stringify(editItem),
+        });
+
+        items = await response.json();
+
+        loadItems(items);
+        loadRecentlyAdded(items);
         // Remove from count
         let countText = localStorage.getItem("count");
         if (countText) { 

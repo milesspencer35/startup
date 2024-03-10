@@ -14,7 +14,7 @@ app.use(express.static('public'));
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
-// User Services
+// User Services //
 
 // Add user
 apiRouter.post('/register', (req, res) => {
@@ -36,7 +36,7 @@ apiRouter.get('/getCurrentUser', (req, res) => {
   res.send(currentUser);
 })
 
-// Count services
+// Count services //
 
 //getCount
 apiRouter.get('count', (req, res) => {
@@ -52,7 +52,7 @@ apiRouter.delete('/deleteCount', (req, res) => {
   res.send(count);
 });
 
-// Item Service
+// Item Service //
 
 // get Items
 apiRouter.get('/items', (req, res) => {
@@ -65,8 +65,13 @@ apiRouter.post('/addItem', (req, res) => {
   res.send(items);
 });
 // update Item
-apiRouter.patch('/updateItem', (req, res) => {
-  items = updateItem(req.body, items);
+apiRouter.patch('/editItem', (req, res) => {
+  items = editItem(req.body, items);
+  res.send(items);
+});
+// delete Item
+apiRouter.patch('/deleteItem', (req, res) => {
+  items = deleteItem(req.body, items);
   res.send(items);
 });
 
@@ -94,9 +99,15 @@ let count = new Map();
 // Item logic
 let items = [];
 
-function updateItem(editedInfo) {
+function editItem(editedInfo) {
   let editedItemIndex = items.findIndex((item) => item.UPC == editedInfo.oldUPC);
   editedInfo.item.user = currentUser;
   items.splice(editedItemIndex, 1, editedInfo.item);
+  return items;
+}
+
+function deleteItem(deleteItem) {
+  let deleteItemIndex = items.findIndex((item) => item.UPC == deleteItem.UPC);
+  items.splice(deleteItemIndex, 1);
   return items;
 }
