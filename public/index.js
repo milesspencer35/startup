@@ -41,6 +41,9 @@ async function closeRegisterPopup(type){
         if (user !== undefined) {
             var message = document.querySelector("#badInfoMessage");
             message.textContent = "That username is already taken, please choose a different one.";
+        } else if (!(await validEmail(registerEmail))) {
+            var message = document.querySelector("#badInfoMessage");
+            message.textContent = "Please use a valid email."
         } else {
             let newUser = {username: registerUsername, email: registerEmail, password: registerPassword};
 
@@ -98,5 +101,15 @@ async function setCurrentUser(username) {
         })
     } catch (e) {
         console.log("Current User Error: ",e.message);
+    }
+}
+
+async function validEmail(email) {
+    const response = await fetch('https://www.disify.com/api/email/'+ email);
+    let result = await response.json();
+    if (result.format === true && result.disposable === false && result.dns === true) {
+        return true;
+    } else {
+        return false;
     }
 }
