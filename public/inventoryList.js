@@ -1,11 +1,10 @@
-// get items
-let items = [];
-const itemsText = localStorage.getItem('items');
-if (itemsText) {
-    items = JSON.parse(itemsText);
+async function getItems() {
+    const response = await fetch('/api/items');
+    items = await response.json();
+    return items;
 }
 
-// Recently added
+// Recently added //
 
 let recentlyAddedPopup = document.getElementById('recentlyAddedPopup');
 
@@ -49,12 +48,11 @@ function mockWebsocket () {
 
 mockWebsocket();
 
-function loadRecentlyAdded() {
-    let items = [];
-    const itemsText = localStorage.getItem('items');
-    if (itemsText) {
-        items = JSON.parse(itemsText);
+async function loadRecentlyAdded(items) {
+    if (!items) {
+        items = await getItems();
     }
+    
     let recentlyAddedItems = items.slice(items.length >= 10 ? items.length - 10 : 0,  items.length).toReversed();
 
     const recentlyAddedListEl = document.querySelector('#recentlyAddedList');
@@ -86,37 +84,33 @@ function loadRecentlyAdded() {
     });
 }
 
-// Add item
+// Add item //
+
 let popup = document.getElementById('popup');
 
 function openAddItemPopup() {
     popup.classList.add('open-popup');
 }
 
-function closeAddItemPopup(type){
+async function closeAddItemPopup(type){
     if (type == "add") {
-        let items = [];
-        const itemsText = localStorage.getItem('items');
-        if (itemsText) {
-            items = JSON.parse(itemsText);
-        }
+        let items = await getItems();
         
         const newItemName = document.querySelector("#newItemName");
         const newItemUPC = document.querySelector("#newItemUPC");
         const newItemStyle = document.querySelector("#newItemStyle");
         const newItemSize = document.querySelector("#newItemSize");
 
-        if (!newItemName.value || !newItemUPC.value || !newItemStyle.value || !newItemSize.value) { //one filled isn't filled out
+        if (!newItemName.value || !newItemUPC.value || !newItemStyle.value || !newItemSize.value) { //one field isn't filled out
             var message = document.querySelector("#badItemInfoMessage");
             message.textContent = "Please enter valid information";
         } else if (items && items.some(item =>  item.UPC === newItemUPC.value)) { //username taken
             var message = document.querySelector("#badItemInfoMessage");
             message.textContent = "UPC code already used.";
         } else {
-            let username = localStorage.getItem("currentUsername");
-            this.saveItem({name: newItemName.value, UPC: newItemUPC.value, style: newItemStyle.value, size: newItemSize.value, user: username});
-            loadItems();
-            loadRecentlyAdded();
+            let newItemsList = await this.saveItem({name: newItemName.value, UPC: newItemUPC.value, style: newItemStyle.value, size: newItemSize.value});
+            loadItems(newItemsList);
+            loadRecentlyAdded(newItemsList);
             popup.classList.remove('open-popup');
         }
     } else { //cancel clicked
@@ -126,22 +120,22 @@ function closeAddItemPopup(type){
     }
 }
 
-function saveItem(newItem) {
-    let currentItems = [];
-    const currentItemsText = localStorage.getItem('items');
-    if (currentItemsText) {
-        currentItems = JSON.parse(currentItemsText);
-    }
-    currentItems.push(newItem);
-    localStorage.setItem('items', JSON.stringify(currentItems));
+async function saveItem(newItem) {
+
+    const response = await fetch('/api/addItem', {
+        method: 'POST',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify(newItem),
+    });
+
+    return await response.json();
 }
 
-// Accordian
-function loadItems() {
-    let items = [];
-    const itemsText = localStorage.getItem('items');
-    if (itemsText) {
-        items = JSON.parse(itemsText);
+// Accordian //
+
+async function loadItems(items) {
+    if (!items) {
+        items = await getItems();
     }
   
     let styles = {}
@@ -167,7 +161,7 @@ function loadItems() {
             <div class="card-body">
                 <div class="card-items">
                     <ul class="list-group list-group-flush">
-                        `+ addItem(styles, key) +`    
+                        `+ addAccordianItem(styles, key) +`    
                     </ul>
                 </div>
             </div>
@@ -176,7 +170,7 @@ function loadItems() {
     }
 }
 
-function addItem(styles, key) {
+function addAccordianItem(styles, key) {
     itemsHTML = "";
     styles[key].sort(compareSizes);
     styles[key].forEach(item => {
@@ -205,78 +199,6 @@ function addItem(styles, key) {
     });
 
     return itemsHTML;
-}
-
-let editItemPopup = document.getElementById('editItemPopup');
-const editItemName = document.querySelector("#editItemName");
-const editItemUPC = document.querySelector("#editItemUPC");
-const editItemStyle = document.querySelector("#editItemStyle");
-const editItemSize = document.querySelector("#editItemSize");
-
-let editItem = {};
-
-function openEditItemPopup(UPC) {
-    let items = [];
-    const itemsText = localStorage.getItem('items');
-    if (itemsText) {
-        items = JSON.parse(itemsText);
-    }
-
-    editItem = items.find((item) => item.UPC === UPC.toString());
-
-
-    editItemName.value = editItem.name;
-    editItemUPC.value = editItem.UPC;
-    editItemStyle.value = editItem.style;
-    editItemSize.value = editItem.size;
-    editItemPopup.classList.add('open-popup');
-}
-
-function closeEditItemPopup(type) {
-    let items = [];
-    const itemsText = localStorage.getItem('items');
-    if (itemsText) {
-        items = JSON.parse(itemsText);
-    }
-
-    let editItemIndex = items.findIndex((item) => item.UPC == editItem.UPC);
-
-    if (type === "confirm") {
-        let editedItem = {name: editItemName.value, UPC: editItemUPC.value, style: editItemStyle.value, size: editItemSize.value, user: localStorage.getItem('currentUsername')};
-        items.splice(editItemIndex, 1, editedItem);
-        localStorage.setItem('items', JSON.stringify(items));
-        
-        //reload inventory
-        loadItems();
-        //reload recently added
-        loadRecentlyAdded();
-        //Update count object
-        let countText = localStorage.getItem("count");
-        if (countText) {
-            let count = new Map(Object.entries(JSON.parse(countText)));
-            oldCountItem = count.get(editItem.UPC);
-            if (!!oldCountItem) {
-                count.delete(editItem.UPC);
-                editedItem.count = oldCountItem.count;
-                count.set(editedItem.UPC, editedItem);
-                localStorage.setItem("count", JSON.stringify(Object.fromEntries(count)));
-            } 
-        }
-    } else if (type === "delete") {
-        // Remove from items
-        items.splice(editItemIndex, 1);
-        localStorage.setItem('items', JSON.stringify(items));
-        loadItems();
-        loadRecentlyAdded();
-        // Remove from count
-        let countText = localStorage.getItem("count");
-        if (countText) { 
-            let count = new Map(Object.entries(JSON.parse(countText)));
-            count.delete(editItem.UPC);
-            localStorage.setItem("count", JSON.stringify(Object.fromEntries(count)));
-        }
-    }
-    editItemPopup.classList.remove('open-popup');
 }
 
 let weights = {
@@ -311,6 +233,80 @@ function compareSizes(a, b) {
 
 function compareNumbers(a, b) {
     return a - b;
+}
+
+// Edit Item //
+
+let editItemPopup = document.getElementById('editItemPopup');
+const editItemName = document.querySelector("#editItemName");
+const editItemUPC = document.querySelector("#editItemUPC");
+const editItemStyle = document.querySelector("#editItemStyle");
+const editItemSize = document.querySelector("#editItemSize");
+
+let editItem = {};
+let items = [];
+
+async function openEditItemPopup(UPC) {
+    items = await getItems();
+
+    editItem = items.find((item) => item.UPC === UPC.toString());
+
+
+    editItemName.value = editItem.name;
+    editItemUPC.value = editItem.UPC;
+    editItemStyle.value = editItem.style;
+    editItemSize.value = editItem.size;
+    editItemPopup.classList.add('open-popup');
+}
+
+async function closeEditItemPopup(type) {
+    //let items = await getItems();
+    
+
+    //let editItemIndex = items.findIndex((item) => item.UPC == editItem.UPC);
+
+    if (type === "confirm") {
+        let editedItem = {name: editItemName.value, UPC: editItemUPC.value, style: editItemStyle.value, size: editItemSize.value};
+
+        const response = await fetch('/api/updateItem', {
+            method: 'PATCH',
+            headers: {'content-type': 'application/json'},
+            body: JSON.stringify({item: editedItem, oldUPC: editItem.UPC}),
+        });
+
+        items = await response.json();
+        
+        //reload inventory
+        loadItems(items);
+        //reload recently added
+        loadRecentlyAdded(items);
+        //Update count object
+        let countText = localStorage.getItem("count");
+        if (countText) {
+            let count = new Map(Object.entries(JSON.parse(countText)));
+            oldCountItem = count.get(editItem.UPC);
+            if (!!oldCountItem) {
+                count.delete(editItem.UPC);
+                editedItem.count = oldCountItem.count;
+                count.set(editedItem.UPC, editedItem);
+                localStorage.setItem("count", JSON.stringify(Object.fromEntries(count)));
+            } 
+        }
+    } else if (type === "delete") {
+        // Remove from items
+        items.splice(editItemIndex, 1);
+        localStorage.setItem('items', JSON.stringify(items));
+        loadItems();
+        loadRecentlyAdded();
+        // Remove from count
+        let countText = localStorage.getItem("count");
+        if (countText) { 
+            let count = new Map(Object.entries(JSON.parse(countText)));
+            count.delete(editItem.UPC);
+            localStorage.setItem("count", JSON.stringify(Object.fromEntries(count)));
+        }
+    }
+    editItemPopup.classList.remove('open-popup');
 }
 
 loadRecentlyAdded();

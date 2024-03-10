@@ -36,6 +36,39 @@ apiRouter.get('/getCurrentUser', (req, res) => {
   res.send(currentUser);
 })
 
+// Count services
+
+//getCount
+apiRouter.get('count', (req, res) => {
+  res.send(count);
+});
+//updateCount
+apiRouter.put('/updateCount', (req, res) => {
+  count = new Map(Object.entries(JSON.parse(req.body)));
+});
+//deleteCount
+apiRouter.delete('/deleteCount', (req, res) => {
+  count = new Map();
+  res.send(count);
+});
+
+// Item Service
+
+// get Items
+apiRouter.get('/items', (req, res) => {
+  res.send(items);
+});
+// add Item
+apiRouter.post('/addItem', (req, res) => {
+  req.body.user = currentUser;
+  items.push(req.body);
+  res.send(items);
+});
+// update Item
+apiRouter.patch('/updateItem', (req, res) => {
+  items = updateItem(req.body, items);
+  res.send(items);
+});
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
@@ -46,10 +79,24 @@ app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
 
+// User Logic
 let users = [];
 let currentUser = "";
 
 function updateUsers(newUser, users) {
   users.push(newUser);
   return users;
+}
+
+// Count Logic
+let count = new Map();
+
+// Item logic
+let items = [];
+
+function updateItem(editedInfo) {
+  let editedItemIndex = items.findIndex((item) => item.UPC == editedInfo.oldUPC);
+  editedInfo.item.user = currentUser;
+  items.splice(editedItemIndex, 1, editedInfo.item);
+  return items;
 }
