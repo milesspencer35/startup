@@ -277,17 +277,14 @@ async function closeEditItemPopup(type) {
         //reload recently added
         loadRecentlyAdded(items);
         //Update count object
-        let countText = localStorage.getItem("count");
-        if (countText) {
-            let count = new Map(Object.entries(JSON.parse(countText)));
-            oldCountItem = count.get(editItem.UPC);
-            if (!!oldCountItem) {
-                count.delete(editItem.UPC);
-                editedItem.count = oldCountItem.count;
-                count.set(editedItem.UPC, editedItem);
-                localStorage.setItem("count", JSON.stringify(Object.fromEntries(count)));
-            } 
-        }
+        let count = await getCount();
+        let oldCountItem = count.get(editItem.UPC);
+        editedItem.count = oldCountItem.count;
+        count.delete(editItem.UPC);
+        count.set(editedItem.UPC, editedItem);
+
+        await setCount(count);
+
     } else if (type === "delete") {
 
         const response = await fetch('/api/deleteItem', {
@@ -300,15 +297,26 @@ async function closeEditItemPopup(type) {
 
         loadItems(items);
         loadRecentlyAdded(items);
-        // Remove from count
-        let countText = localStorage.getItem("count");
-        if (countText) { 
-            let count = new Map(Object.entries(JSON.parse(countText)));
-            count.delete(editItem.UPC);
-            localStorage.setItem("count", JSON.stringify(Object.fromEntries(count)));
-        }
+
+        let count = await getCount();
+        count.delete(editItem.UPC);
+        await setCount(count);
     }
     editItemPopup.classList.remove('open-popup');
+}
+
+async function getCount() {
+    const response = await fetch('/api/count');
+    count = await response.json();
+    return new Map(Object.entries(count));
+}
+
+async function setCount(count) {
+    await fetch('/api/updateCount', {
+        method: 'POST',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify(Object.fromEntries(count)),
+    });
 }
 
 loadRecentlyAdded();
