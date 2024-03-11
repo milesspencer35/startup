@@ -61,3 +61,13 @@ For this deliverable I implemented by JavaScript so that the application works f
 **Database** - Displays counts on counter page and inventory items on inventory list page. Currently this is stored and retrieved from local storage, but it will be replaced with the database data later.
 **WebSocket** - I used the setInterval function to periodically add a entry to the recently added/edited popup. This will be replaced with WebSocket entries later.
 **Application Logic** - Ability to add, edit, and delete items. Once a item is saved in the inventory you can create a count of it.
+
+## Service deliverable
+
+For this deliverable I added backend endpoints in backend.js.
+
+**Node.js/Express HTTP service** - done!
+**Static middleware for frontend** - done!
+**Calls to third party endpoints** - Third party call to disify that verifies a entered email is valid. 
+**Backend service endpoints** - Placeholders for login that stores the current user on the server. Endpoints for counter and inventory list. 
+**Frontend calls service endpoints** - Frontend calls in main.js, index.js, counter.js and inventoryList.js. 
