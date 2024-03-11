@@ -20,7 +20,6 @@ async function countItem() {
         return null;
     }
 
-    // Work here next
     let count = await getCount();
 
     let countItem = null;
