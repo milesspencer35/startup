@@ -101,7 +101,6 @@ async function getUser(username) {
     return null;
 }
 
-
 async function setCurrentUser(username) {
     try {
         const response = await fetch('/api/setCurrentUser', {

@@ -26,7 +26,7 @@ apiRouter.post('/register', (req, res) => {
   res.send(users);
 });
 
-// Get User
+// Get User  ** partially updated **
 apiRouter.get('/users/:username', async (req, res) => {
   const user = await DB.getUser(req.params.username);
   if (user) {
@@ -90,7 +90,7 @@ apiRouter.patch('/deleteItem', (req, res) => {
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
-    res.sendFile('index.html', { root: 'public' });
+    res.sendFile('login.html', { root: 'public' });
 });
 
 app.listen(port, () => {

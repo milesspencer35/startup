@@ -32,8 +32,8 @@ async function addUser(username, password, username) {
     return user;
 }
 
-function getUser(email) {
-    return userCollection.findOne({ email: email });
+function getUser(username) {
+    return userCollection.findOne({ username: username });
 }
   
 function getUserByToken(token) {
@@ -41,6 +41,7 @@ function getUserByToken(token) {
 }
 
 module.exports = {
+    addUser,
     getUser,
     getUserByToken
 };
