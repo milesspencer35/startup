@@ -1,5 +1,9 @@
 const express = require('express');
 const app = express();
+const cookieParser = require('cookie-parser');
+const bcrypt = require('bcrypt');
+const DB = require('./database.js');
+
 
 // The service port.
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
@@ -21,10 +25,18 @@ apiRouter.post('/register', (req, res) => {
   users = updateUsers(req.body, users);
   res.send(users);
 });
+
 // Get User
-apiRouter.get('/users', (req, res) => {
-  res.send(users);
+apiRouter.get('/users/:username', async (req, res) => {
+  const user = await DB.getUser(req.params.username);
+  if (user) {
+    const token = req?.cookies.token;
+    res.send({ username: user.username, email: user.email, authenticated: token === user.token });
+    return;
+  }
+  res.status(404).send({ msg: 'Unknown' });
 });
+
 // Set Current User
 apiRouter.put('/setCurrentUser', (req, res) => {
   currentUser = req.body.username;
