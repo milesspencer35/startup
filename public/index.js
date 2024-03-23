@@ -78,19 +78,29 @@ function saveUser(newUser) {
     localStorage.setItem('users', JSON.stringify(users));
 }
 
+// async function getUser(username) {
+//     let users = null
+//     try {
+//         const response = await fetch('/api/users');
+//         users = await response.json();
+//     } catch (e) {
+//         console.log("Error", e.message);
+//         return null;
+//     }
+
+//     user = users.find((user) => user.username === username);
+//     return user;
+// }
+
 async function getUser(username) {
-    let users = null
-    try {
-        const response = await fetch('/api/users');
-        users = await response.json();
-    } catch (e) {
-        console.log("Error", e.message);
-        return null;
+    const response = await fetch(`/api/users/${username}`);
+    if (response.status === 200) {
+        return response.json();
     }
 
-    user = users.find((user) => user.username === username);
-    return user;
+    return null;
 }
+
 
 async function setCurrentUser(username) {
     try {
