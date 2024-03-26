@@ -7,7 +7,7 @@ const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostna
 const client = new MongoClient(url);
 const db = client.db('startup');
 const userCollection = db.collection('user');
-const scoreCollection = db.collection('count');
+const countCollection = db.collection('count');
 const itemCollection = db.collection('item');
 
 (async function testConnection() {
@@ -18,11 +18,11 @@ const itemCollection = db.collection('item');
     process.exit(1);
 });
 
-async function addUser(username, password, username) {
+async function createUser(username, password, email) {
     const passwordHash = await bcrypt.hash(password, 10);
   
     const user = {
-      useranme: username,
+      username: username,
       password: passwordHash,
       email: email,
       token: uuid.v4(),
@@ -41,7 +41,7 @@ function getUserByToken(token) {
 }
 
 module.exports = {
-    addUser,
+    createUser,
     getUser,
     getUserByToken
 };
