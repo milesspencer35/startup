@@ -11,13 +11,19 @@ async function login() {
     const loginUsername = document.querySelector("#InputUsername").value;
     const loginPassword = document.querySelector("#InputPassword").value;
     
-    let user = await getUser(loginUsername);    
-
-    if (!user || user.password !== loginPassword) {
+    let response = await loginUser(loginUsername, loginPassword); 
+    
+    if (response.status !== 200) {
         var message = document.querySelector("#badLoginMessage");
         message.textContent = "Invalid Login";
         return null;
     }
+
+    // if (!user || user.password !== loginPassword) {
+    //     var message = document.querySelector("#badLoginMessage");
+    //     message.textContent = "Invalid Login";
+    //     return null;
+    // }
 
     await setCurrentUser(loginUsername);
     // localStorage.setItem("currentUsername", loginUsername);
@@ -36,27 +42,28 @@ async function closeRegisterPopup(type){
             return null;
         }
 
-        user = await getUser(registerUsername);
-
-        if (user !== undefined) {
-            var message = document.querySelector("#badInfoMessage");
-            message.textContent = "That username is already taken, please choose a different one.";
-        } else if (!(await validEmail(registerEmail))) {
+        if (!(await validEmail(registerEmail))) {
             var message = document.querySelector("#badInfoMessage");
             message.textContent = "Please use a valid email."
         } else {
             let newUser = {username: registerUsername, email: registerEmail, password: registerPassword};
 
             try {
-                await fetch('/api/register', {
+                responseText = await fetch('/api/register', {
                   method: 'POST',
                   headers: {'content-type': 'application/json'},
                   body: JSON.stringify(newUser),
                 });
 
+                // response = JSON.parse(responseText);
+                if (responseText.status !== 200) {
+                    var message = document.querySelector("#badInfoMessage");
+                    message.textContent = "That username is already taken, please choose a different one.";
+                } else {
+                    await setCurrentUser(registerUsername);
+                    window.location.href = "counter.html";
+                }
                 // localStorage.setItem("currentUsername", registerUsername);
-                await setCurrentUser(registerUsername);
-                window.location.href = "counter.html";
               } catch (e) {
                 console.log("Error", e.message());
               }
@@ -92,13 +99,24 @@ function saveUser(newUser) {
 //     return user;
 // }
 
-async function getUser(username) {
-    const response = await fetch(`/api/users/${username}`);
-    if (response.status === 200) {
-        return response.json();
-    }
+// async function getUser(username) {
+//     const response = await fetch(`/api/users/${username}`);
+//     if (response.status === 200) {
+//         return response.json();
+//     }
 
-    return null;
+//     return null;
+// }
+
+async function loginUser(username, password) {
+    const response = await fetch('/api/login', {
+        method: 'POST',
+        body: JSON.stringify({ username: username, password: password }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+    });
+    return response;
 }
 
 async function setCurrentUser(username) {

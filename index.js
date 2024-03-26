@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const DB = require('./database.js');
 
+const authCookieName = 'token';
 
 // The service port.
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
@@ -11,8 +12,14 @@ const port = process.argv.length > 2 ? process.argv[2] : 3000;
 // JSON body parsing using built-in middleware
 app.use(express.json());
 
+// Use the cookie parser middleware for tracking authentication tokens
+app.use(cookieParser());
+
 // Serve up the front-end static content hosting
 app.use(express.static('public'));
+
+// Trust headers that are forwarded from the proxy so we can determine IP addresses
+app.set('trust proxy', true);
 
 // Router for service endpoints
 var apiRouter = express.Router();
@@ -20,13 +27,35 @@ app.use(`/api`, apiRouter);
 
 // User Services //
 
-// Add user
-apiRouter.post('/register', (req, res) => {
-  users = updateUsers(req.body, users);
-  res.send(users);
+// CreateAuth token for a new user  ** updated **
+apiRouter.post('/register', async (req, res) => {
+  if (await DB.getUser(req.body.username)) {
+    res.status(409).send({ msg: 'Existing user' });
+  } else {
+    const user = await DB.createUser(req.body.username, req.body.password, req.body.email);
+
+    // Set the cookie
+    setAuthCookie(res, user.token);
+
+    res.send({
+      id: user._id,  // Not sure about this
+    });
+  }
 });
 
-// Get User  ** partially updated **
+// GetAuth token for the provided credentials
+apiRouter.post('/login', async (req, res) => {
+  const user = await DB.getUser(req.body.username);
+  if (user) {
+    if (await bcrypt.compare(req.body.password, user.password)) {
+      setAuthCookie(res, user.token);
+      res.send({ id: user._id });
+      return;
+    }
+  }
+  res.status(401).send({ msg: 'Unauthorized' });
+});
+// Get User  ** updated **
 apiRouter.get('/users/:username', async (req, res) => {
   const user = await DB.getUser(req.params.username);
   if (user) {
@@ -37,16 +66,19 @@ apiRouter.get('/users/:username', async (req, res) => {
   res.status(404).send({ msg: 'Unknown' });
 });
 
+
+// TODO: I don't know if I need to do this with a authToken situation
 // Set Current User
-apiRouter.put('/setCurrentUser', (req, res) => {
-  currentUser = req.body.username;
-  res.send(currentUser);
-});
-// Get Current User
-apiRouter.get('/getCurrentUser', (req, res) => {
-  res.type('text/plain');
-  res.send(currentUser);
-})
+// apiRouter.put('/setCurrentUser', (req, res) => {
+//   currentUser = req.body.username;
+//   res.send(currentUser);
+// });
+// // Get Current User
+// apiRouter.get('/getCurrentUser', (req, res) => {
+//   res.type('text/plain');
+//   res.send(currentUser);
+// })
+// Getting the current AUTH TOKEN MIGHT DO THIS
 
 // Count services //
 
@@ -96,6 +128,15 @@ app.use((_req, res) => {
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
+
+// setAuthCookie in the HTTP response
+function setAuthCookie(res, authToken) {
+  res.cookie(authCookieName, authToken, {
+    secure: true,
+    httpOnly: true,
+    sameSite: 'strict',
+  });
+}
 
 // User Logic
 let users = [];

@@ -11,20 +11,20 @@ function dropdownClicked() {
     }
 }
 
-async function getCurrentUser() {
-    try {
-        const response = await fetch('/api/getCurrentUser');
-        return await response.text();
-    } catch (e) {
-        console.log("Error", e.message);
-        return null;
-    }
-}
+// async function getCurrentUser() {
+//     try {
+//         const response = await fetch('/api/getCurrentUser');
+//         return await response.text();
+//     } catch (e) {
+//         console.log("Error", e.message);
+//         return null;
+//     }
+// }
 
-getCurrentUser()
-    .then((username) => {
-        let headerUsername = document.querySelector("#header-username");
-        headerUsername.textContent = username;
-        let dropdownUsername = document.querySelector("#dropdown-username");
-        dropdownUsername.textContent = username;
-    });
+// getCurrentUser()
+//     .then((username) => {
+//         let headerUsername = document.querySelector("#header-username");
+//         headerUsername.textContent = username;
+//         let dropdownUsername = document.querySelector("#dropdown-username");
+//         dropdownUsername.textContent = username;
+//     });
