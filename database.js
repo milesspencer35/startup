@@ -9,6 +9,7 @@ const db = client.db('startup');
 const userCollection = db.collection('user');
 const countCollection = db.collection('count');
 const itemCollection = db.collection('item');
+itemCollection.createIndex( { "UPC": 1 }, { unique: true } );
 
 (async function testConnection() {
     await client.connect();
@@ -17,6 +18,10 @@ const itemCollection = db.collection('item');
     console.log(`Unable to connect to database with ${url} because ${ex.message}`);
     process.exit(1);
 });
+
+
+
+// User Collection //
 
 async function createUser(username, password, email) {
     const passwordHash = await bcrypt.hash(password, 10);
@@ -40,8 +45,42 @@ function getUserByToken(token) {
     return userCollection.findOne({ token: token });
 }
 
+// Count Collection //
+
+
+
+// Item Collection
+
+
+
+async function getItems() {
+    return await itemCollection.find();
+}
+
+async function addItem(item) {
+    try {
+        await itemCollection.insertOne(item);
+        return await getItems();
+    } catch (error) {
+        return "Duplicate UPC";
+    }
+}
+
+function deleteItem(itemUPC) {
+    itemCollection.deleteOne({UPC : itemUPC});
+}
+
+async function updateItem(oldItemUPC, newItem) {
+   await itemCollection.updateOne({UPC : oldItemUPC}, newItem);
+   return await getItems();
+}
+
 module.exports = {
     createUser,
     getUser,
-    getUserByToken
+    getUserByToken,
+    getItems,
+    addItem,
+    deleteItem,
+    updateItem
 };
