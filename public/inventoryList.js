@@ -94,7 +94,7 @@ function openAddItemPopup() {
 
 async function closeAddItemPopup(type){
     if (type == "add") {
-        let items = await getItems();
+        // let items = await getItems();
         
         const newItemName = document.querySelector("#newItemName");
         const newItemUPC = document.querySelector("#newItemUPC");
@@ -104,14 +104,19 @@ async function closeAddItemPopup(type){
         if (!newItemName.value || !newItemUPC.value || !newItemStyle.value || !newItemSize.value) { //one field isn't filled out
             var message = document.querySelector("#badItemInfoMessage");
             message.textContent = "Please enter valid information";
-        } else if (items && items.some(item =>  item.UPC === newItemUPC.value)) { //username taken
-            var message = document.querySelector("#badItemInfoMessage");
-            message.textContent = "UPC code already used.";
+        // } else if (items.events && items.some(item =>  item.UPC === newItemUPC.value)) { //UPC already used
+        //     var message = document.querySelector("#badItemInfoMessage");
+        //     message.textContent = "UPC code already used.";
         } else {
-            let newItemsList = await this.saveItem({name: newItemName.value, UPC: newItemUPC.value, style: newItemStyle.value, size: newItemSize.value});
-            loadItems(newItemsList);
-            loadRecentlyAdded(newItemsList);
-            popup.classList.remove('open-popup');
+            let response = await this.saveItem({name: newItemName.value, UPC: newItemUPC.value, style: newItemStyle.value, size: newItemSize.value});
+            if (response.msg === "duplicate") {
+                var message = document.querySelector("#badItemInfoMessage");
+                message.textContent = "UPC code already used.";
+            } else {
+                loadItems(response);
+                loadRecentlyAdded(response);
+                popup.classList.remove('open-popup');
+            }
         }
     } else { //cancel clicked
         var message = document.querySelector("#badItemInfoMessage");
