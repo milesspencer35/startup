@@ -25,9 +25,23 @@ app.set('trust proxy', true);
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
+// secureApiRouter verifies credentials for endpoints
+var secureApiRouter = express.Router();
+apiRouter.use(secureApiRouter);
+
+secureApiRouter.use(async (req, res, next) => {
+  authToken = req.cookies[authCookieName];
+  const user = await DB.getUserByToken(authToken);
+  if (user) {
+    next();
+  } else {
+    res.status(401).send({ msg: 'Unauthorized' });
+  }
+});
+
 // User Services //
 
-// CreateAuth token for a new user  ** updated **
+// CreateAuth token for a new user
 apiRouter.post('/register', async (req, res) => {
   if (await DB.getUser(req.body.username)) {
     res.status(409).send({ msg: 'Existing user' });
@@ -38,7 +52,7 @@ apiRouter.post('/register', async (req, res) => {
     setAuthCookie(res, user.token);
 
     res.send({
-      id: user._id,  // Not sure about this
+      id: user._id,
     });
   }
 });
@@ -55,7 +69,8 @@ apiRouter.post('/login', async (req, res) => {
   }
   res.status(401).send({ msg: 'Unauthorized' });
 });
-// Get User  ** updated **
+
+// Get User
 apiRouter.get('/users/:username', async (req, res) => {
   const user = await DB.getUser(req.params.username);
   if (user) {
@@ -66,19 +81,13 @@ apiRouter.get('/users/:username', async (req, res) => {
   res.status(404).send({ msg: 'Unknown' });
 });
 
-
-// TODO: I don't know if I need to do this with a authToken situation
-// Set Current User
-// apiRouter.put('/setCurrentUser', (req, res) => {
-//   currentUser = req.body.username;
-//   res.send(currentUser);
-// });
-// // Get Current User
-// apiRouter.get('/getCurrentUser', (req, res) => {
-//   res.type('text/plain');
-//   res.send(currentUser);
-// })
-// Getting the current AUTH TOKEN MIGHT DO THIS
+// Get Current User
+apiRouter.get('/getCurrentUser', async (req, res) => {
+  authToken = req.cookies[authCookieName];
+  const user = await DB.getUserByToken(authToken);
+  res.type('text/plain');
+  res.send(user.username);
+})
 
 // Count services //
 
