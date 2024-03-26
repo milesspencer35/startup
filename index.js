@@ -82,7 +82,7 @@ apiRouter.get('/users/:username', async (req, res) => {
 });
 
 // Get Current User
-apiRouter.get('/getCurrentUser', async (req, res) => {
+secureApiRouter.get('/getCurrentUser', async (req, res) => {
   authToken = req.cookies[authCookieName];
   const user = await DB.getUserByToken(authToken);
   res.type('text/plain');
@@ -109,23 +109,30 @@ apiRouter.delete('/deleteCount', (req, res) => {
 // Item Service //
 
 // get Items
-apiRouter.get('/items', (req, res) => {
+secureApiRouter.get('/items', async (req, res) => {
+  // cursor = await DB.getItems();
+  items = await createItemsArray(await DB.getItems());
   res.send(items);
 });
 // add Item
-apiRouter.post('/addItem', (req, res) => {
-  req.body.user = currentUser;
-  items.push(req.body);
-  res.send(items);
+secureApiRouter.post('/addItem', async (req, res) => {
+  cursor = await DB.addItem(req.body);
+  if (cursor === "Duplicate UPC") {
+    res.status(409).send({msg: "duplicate"});
+  } else {
+    items = await createItemsArray(cursor);
+    res.send(items);
+  }
 });
 // update Item
-apiRouter.patch('/editItem', (req, res) => {
-  items = editItem(req.body, items);
+apiRouter.patch('/editItem', async (req, res) => {
+  // items = editItem(req.body, items);
+  items = await DB.updateItem(req.body.oldUPC, req.body.item);
   res.send(items);
 });
 // delete Item
-apiRouter.patch('/deleteItem', (req, res) => {
-  items = deleteItem(req.body, items);
+apiRouter.patch('/deleteItem', async (req, res) => {
+  items = await DB.deleteItem(req.body.UPC);
   res.send(items);
 });
 
@@ -148,29 +155,35 @@ function setAuthCookie(res, authToken) {
 }
 
 // User Logic
-let users = [];
-let currentUser = "";
+// let users = [];
+// let currentUser = "";
 
-function updateUsers(newUser, users) {
-  users.push(newUser);
-  return users;
-}
+// function updateUsers(newUser, users) {
+//   users.push(newUser);
+//   return users;
+// }
 
 // Count Logic
 let count = new Map();
 
 // Item logic
-let items = [];
+// let items = [];
 
-function editItem(editedInfo) {
-  let editedItemIndex = items.findIndex((item) => item.UPC == editedInfo.oldUPC);
-  editedInfo.item.user = currentUser;
-  items.splice(editedItemIndex, 1, editedInfo.item);
-  return items;
-}
+// function editItem(editedInfo) {
+//   let editedItemIndex = items.findIndex((item) => item.UPC == editedInfo.oldUPC);
+//   editedInfo.item.user = currentUser;
+//   items.splice(editedItemIndex, 1, editedInfo.item);
+//   return items;
+// }
 
-function deleteItem(deleteItem) {
-  let deleteItemIndex = items.findIndex((item) => item.UPC == deleteItem.UPC);
-  items.splice(deleteItemIndex, 1);
+// function deleteItem(deleteItem) {
+//   let deleteItemIndex = items.findIndex((item) => item.UPC == deleteItem.UPC);
+//   items.splice(deleteItemIndex, 1);
+//   return items;
+// }
+
+async function createItemsArray(cursor) {
+  items = [];
+  await cursor.forEach(doc => items.push(doc));
   return items;
 }
