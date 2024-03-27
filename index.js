@@ -92,13 +92,14 @@ secureApiRouter.get('/getCurrentUser', async (req, res) => {
 // Count services //
 
 //getCount
-apiRouter.get('/count', (req, res) => {
-  res.send(Object.fromEntries(count));
+apiRouter.get('/count', async (req, res) => {
+  count = await createArray(await DB.getCount());
+  res.send(count);
 });
 //updateCount
-apiRouter.post('/updateCount', (req, res) => {
-  count = new Map(Object.entries(req.body));
-  res.send(Object.fromEntries(count));
+apiRouter.post('/updateCount', async (req, res) => {
+  count = await createArray(await DB.updateCount(req.body));
+  res.send(count);
 });
 //deleteCount
 apiRouter.delete('/deleteCount', (req, res) => {
@@ -111,7 +112,7 @@ apiRouter.delete('/deleteCount', (req, res) => {
 // get Items
 secureApiRouter.get('/items', async (req, res) => {
   // cursor = await DB.getItems();
-  items = await createItemsArray(await DB.getItems());
+  items = await createArray(await DB.getItems());
   res.send(items);
 });
 // add Item
@@ -120,7 +121,7 @@ secureApiRouter.post('/addItem', async (req, res) => {
   if (cursor === "Duplicate UPC") {
     res.status(409).send({msg: "duplicate"});
   } else {
-    items = await createItemsArray(cursor);
+    items = await createArray(cursor);
     res.send(items);
   }
 });
@@ -131,13 +132,13 @@ secureApiRouter.patch('/editItem', async (req, res) => {
   if (cursor === "Duplicate UPC") {
     res.status(409).send({msg: "duplicate"});
   } else {
-    items = await createItemsArray(cursor);
+    items = await createArray(cursor);
     res.send(items);
   }
 });
 // delete Item
 secureApiRouter.patch('/deleteItem', async (req, res) => {
-  items = await createItemsArray(await DB.deleteItem(req.body.UPC));
+  items = await createArray(await DB.deleteItem(req.body.UPC));
   res.send(items);
 });
 
@@ -187,8 +188,9 @@ let count = new Map();
 //   return items;
 // }
 
-async function createItemsArray(cursor) {
+async function createArray(cursor) {
   items = [];
   await cursor.forEach(doc => items.push(doc));
   return items;
 }
+

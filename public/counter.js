@@ -36,7 +36,7 @@ async function countItem() {
     await fetch('/api/updateCount', {
         method: 'POST',
         headers: {'content-type': 'application/json'},
-        body: JSON.stringify(Object.fromEntries(count)),
+        body: JSON.stringify(countItem),
     });
 
     showMessage('success');
@@ -103,6 +103,10 @@ async function resetCount () {
 
 async function getCount() {
     const response = await fetch('/api/count');
-    count = await response.json();
-    return new Map(Object.entries(count));
+    countArray = await response.json();
+    count = new Map();
+    countArray.forEach((item) => {
+        count.set(item.UPC, item);
+    });
+    return count;
 }

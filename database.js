@@ -47,11 +47,19 @@ function getUserByToken(token) {
 
 // Count Collection //
 
+async function updateCount(countItem) {
+    // user = {
 
+    // }
+    await countCollection.updateOne({UPC : countItem.UPC}, {"$set": countItem}, {upsert:true});
+    return await getCount();
+}
+
+async function getCount() {
+    return await countCollection.find();
+}
 
 // Item Collection
-
-
 
 async function getItems() {
     return await itemCollection.find();
@@ -85,6 +93,8 @@ module.exports = {
     createUser,
     getUser,
     getUserByToken,
+    updateCount,
+    getCount,
     getItems,
     addItem,
     deleteItem,
