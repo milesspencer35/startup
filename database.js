@@ -71,8 +71,13 @@ function deleteItem(itemUPC) {
 }
 
 async function updateItem(oldItemUPC, newItem) {
-   await itemCollection.updateOne({UPC : oldItemUPC}, newItem);
-   return await getItems();
+    try {
+        await itemCollection.replaceOne({UPC : oldItemUPC}, newItem);
+        return await getItems();
+    } catch (error) {
+        return "Duplicate UPC";
+    }
+   
 }
 
 module.exports = {

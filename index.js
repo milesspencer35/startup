@@ -125,14 +125,19 @@ secureApiRouter.post('/addItem', async (req, res) => {
   }
 });
 // update Item
-apiRouter.patch('/editItem', async (req, res) => {
+secureApiRouter.patch('/editItem', async (req, res) => {
   // items = editItem(req.body, items);
-  items = await DB.updateItem(req.body.oldUPC, req.body.item);
-  res.send(items);
+  cursor = await DB.updateItem(req.body.oldUPC, req.body.item);
+  if (cursor === "Duplicate UPC") {
+    res.status(409).send({msg: "duplicate"});
+  } else {
+    items = await createItemsArray(cursor);
+    res.send(items);
+  }
 });
 // delete Item
-apiRouter.patch('/deleteItem', async (req, res) => {
-  items = await DB.deleteItem(req.body.UPC);
+secureApiRouter.patch('/deleteItem', async (req, res) => {
+  items = await createItemsArray(await DB.deleteItem(req.body.UPC));
   res.send(items);
 });
 

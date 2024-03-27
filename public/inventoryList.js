@@ -276,6 +276,12 @@ async function closeEditItemPopup(type) {
         });
 
         items = await response.json();
+
+        if (items.msg === "duplicate") {
+            var message = document.querySelector("#badEditInfoMessage");
+            message.textContent = "UPC code already used.";
+            return;
+        }
         
         //reload inventory
         loadItems(items);
