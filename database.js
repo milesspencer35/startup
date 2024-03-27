@@ -66,8 +66,9 @@ async function addItem(item) {
     }
 }
 
-function deleteItem(itemUPC) {
-    itemCollection.deleteOne({UPC : itemUPC});
+async function deleteItem(itemUPC) {
+    await itemCollection.deleteOne({UPC : itemUPC});
+    return await getItems();
 }
 
 async function updateItem(oldItemUPC, newItem) {
