@@ -92,18 +92,21 @@ secureApiRouter.get('/getCurrentUser', async (req, res) => {
 // Count services //
 
 //getCount
-apiRouter.get('/count', async (req, res) => {
-  count = await createArray(await DB.getCount());
+secureApiRouter.get('/count', async (req, res) => {
+  authToken = req.cookies[authCookieName];
+  count = await createArray(await DB.getCount(authToken));
   res.send(count);
 });
 //updateCount
-apiRouter.post('/updateCount', async (req, res) => {
-  count = await createArray(await DB.updateCount(req.body));
+secureApiRouter.post('/updateCount', async (req, res) => {
+  authToken = req.cookies[authCookieName];
+  count = await createArray(await DB.updateCount(req.body, authToken));
   res.send(count);
 });
 //deleteCount
-apiRouter.delete('/deleteCount', async (req, res) => {
-  await DB.deleteCount();
+secureApiRouter.delete('/deleteCount', async (req, res) => {
+  authToken = req.cookies[authCookieName];
+  await DB.deleteCount(authToken);
   res.send(200);
 });
 
@@ -170,7 +173,7 @@ function setAuthCookie(res, authToken) {
 // }
 
 // Count Logic
-let count = new Map();
+// let count = new Map();
 
 // Item logic
 // let items = [];

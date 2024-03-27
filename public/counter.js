@@ -65,28 +65,28 @@ async function displayCounts(count) {
         count = await getCount();
     }
 
-    count.forEach((item) => {
+    count.forEach((countItem) => {
         countItems.innerHTML = countItems.innerHTML + `
         <div class="count-item">
-            <div class="item-name">`+item.name + " &ndash; " + item.size +`</div>
+            <div class="item-name">`+countItem.item.name + " &ndash; " + countItem.item.size +`</div>
             <div class="item-content">
                 <div class="item-details">
                     <div>
                         <span class="item-type">UPC: </span>
-                        <span class="item-data">`+item.UPC+`</span>
+                        <span class="item-data">`+countItem.UPC+`</span>
                     </div>
                     <div>
                         <span class="item-type">Style Code:</span>
-                        <span class="item-data">`+item.style+`</span>
+                        <span class="item-data">`+countItem.item.style+`</span>
                     </div>
                     <div>
                         <span class="item-type">Size:</span>
-                        <span class="item-data">`+item.size+`</span>
+                        <span class="item-data">`+countItem.item.size+`</span>
                     </div>
                 </div>
                 <div class="item-count">
                     <span class="count-title">Count</span>
-                    <span class="count-number">`+item.count+`</span>
+                    <span class="count-number">`+countItem.count+`</span>
                 </div>
             </div>
         </div>`;
@@ -108,5 +108,20 @@ async function getCount() {
     countArray.forEach((item) => {
         count.set(item.UPC, item);
     });
-    return count;
+    joinCount = await joinItemsAndCount(itemsMap, count);
+    return joinCount;
+}
+
+async function joinItemsAndCount(items, count) {
+    joinMap = new Map();
+    await count.forEach(async (countItem) => {
+        joinItem = {
+            UPC: countItem.UPC,
+            item: await items.get(countItem.UPC),
+            count: countItem.count
+        }
+        await joinMap.set(joinItem.UPC, joinItem);
+    });
+
+    return joinMap;
 }

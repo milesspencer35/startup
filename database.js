@@ -47,20 +47,22 @@ function getUserByToken(token) {
 
 // Count Collection //
 
-async function updateCount(countItem) {
-    // user = {  // figure out how to have a count per user
-
-    // }
-    await countCollection.updateOne({UPC : countItem.UPC}, {"$set": countItem}, {upsert:true});
-    return await getCount();
+async function updateCount(countItem, token) {
+    user = await getUserByToken(token);
+    await countCollection.updateOne(
+        {UPC : countItem.UPC, user: user.username}, 
+        {"$set": {count: countItem.count} }, {upsert:true});
+    return await getCount(token);
 }
 
-async function getCount() {
-    return await countCollection.find();
+async function getCount(token) {
+    user = await getUserByToken(token);
+    return await countCollection.find({user: user.username});
 }
 
-async function deleteCount() {
-    await countCollection.deleteMany({});
+async function deleteCount(token) {
+    user = await getUserByToken(token);
+    await countCollection.deleteMany({user: user.username});
 }
 
 // Item Collection
