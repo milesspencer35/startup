@@ -318,8 +318,12 @@ async function closeEditItemPopup(type) {
 
 async function getCount() {
     const response = await fetch('/api/count');
-    count = await response.json();
-    return new Map(Object.entries(count));
+    countArray = await response.json();
+    count = new Map();
+    countArray.forEach((item) => {
+        count.set(item.UPC, item);
+    });
+    return count;
 }
 
 async function setCount(count) {

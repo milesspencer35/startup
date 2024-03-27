@@ -102,9 +102,9 @@ apiRouter.post('/updateCount', async (req, res) => {
   res.send(count);
 });
 //deleteCount
-apiRouter.delete('/deleteCount', (req, res) => {
-  count = new Map();
-  res.send(count);
+apiRouter.delete('/deleteCount', async (req, res) => {
+  await DB.deleteCount();
+  res.send(200);
 });
 
 // Item Service //

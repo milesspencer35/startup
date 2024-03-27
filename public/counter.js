@@ -33,7 +33,7 @@ async function countItem() {
 
     count.set(upcCode, countItem);
 
-    await fetch('/api/updateCount', {
+    fetch('/api/updateCount', {
         method: 'POST',
         headers: {'content-type': 'application/json'},
         body: JSON.stringify(countItem),

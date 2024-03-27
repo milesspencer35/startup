@@ -48,7 +48,7 @@ function getUserByToken(token) {
 // Count Collection //
 
 async function updateCount(countItem) {
-    // user = {
+    // user = {  // figure out how to have a count per user
 
     // }
     await countCollection.updateOne({UPC : countItem.UPC}, {"$set": countItem}, {upsert:true});
@@ -57,6 +57,10 @@ async function updateCount(countItem) {
 
 async function getCount() {
     return await countCollection.find();
+}
+
+async function deleteCount() {
+    await countCollection.deleteMany({});
 }
 
 // Item Collection
@@ -95,6 +99,7 @@ module.exports = {
     getUserByToken,
     updateCount,
     getCount,
+    deleteCount,
     getItems,
     addItem,
     deleteItem,
