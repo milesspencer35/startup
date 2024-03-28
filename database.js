@@ -65,6 +65,10 @@ async function deleteCount(token) {
     await countCollection.deleteMany({user: user.username});
 }
 
+async function deleteCountItem(UPC) {
+    await countCollection.deleteMany({UPC: UPC});
+}
+
 // Item Collection
 
 async function getItems() {
@@ -102,6 +106,7 @@ module.exports = {
     updateCount,
     getCount,
     deleteCount,
+    deleteCountItem,
     getItems,
     addItem,
     deleteItem,

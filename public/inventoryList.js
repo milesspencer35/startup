@@ -287,14 +287,6 @@ async function closeEditItemPopup(type) {
         loadItems(items);
         //reload recently added
         loadRecentlyAdded(items);
-        //Update count object
-        let count = await getCount();
-        let oldCountItem = count.get(editItem.UPC);
-        editedItem.count = oldCountItem.count;
-        count.delete(editItem.UPC);
-        count.set(editedItem.UPC, editedItem);
-
-        await setCount(count);
 
     } else if (type === "delete") {
 
@@ -309,9 +301,6 @@ async function closeEditItemPopup(type) {
         loadItems(items);
         loadRecentlyAdded(items);
 
-        let count = await getCount();
-        count.delete(editItem.UPC);
-        await setCount(count);
     }
     editItemPopup.classList.remove('open-popup');
 }

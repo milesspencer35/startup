@@ -142,6 +142,7 @@ secureApiRouter.patch('/editItem', async (req, res) => {
 // delete Item
 secureApiRouter.patch('/deleteItem', async (req, res) => {
   items = await createArray(await DB.deleteItem(req.body.UPC));
+  await DB.deleteCountItem(req.body.UPC);
   res.send(items);
 });
 
