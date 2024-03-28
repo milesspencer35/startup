@@ -25,20 +25,6 @@ app.set('trust proxy', true);
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
-// secureApiRouter verifies credentials for endpoints
-var secureApiRouter = express.Router();
-apiRouter.use(secureApiRouter);
-
-secureApiRouter.use(async (req, res, next) => {
-  authToken = req.cookies[authCookieName];
-  const user = await DB.getUserByToken(authToken);
-  if (user) {
-    next();
-  } else {
-    res.status(401).send({ msg: 'Unauthorized' });
-  }
-});
-
 // User Services //
 
 // CreateAuth token for a new user
@@ -70,6 +56,12 @@ apiRouter.post('/login', async (req, res) => {
   res.status(401).send({ msg: 'Unauthorized' });
 });
 
+// DeleteAuth token if stored in cookie
+apiRouter.delete('/logout', (_req, res) => {
+  res.clearCookie(authCookieName);
+  res.status(204).end();
+});
+
 // Get User
 apiRouter.get('/users/:username', async (req, res) => {
   const user = await DB.getUser(req.params.username);
@@ -79,6 +71,20 @@ apiRouter.get('/users/:username', async (req, res) => {
     return;
   }
   res.status(404).send({ msg: 'Unknown' });
+});
+
+// secureApiRouter verifies credentials for endpoints
+var secureApiRouter = express.Router();
+apiRouter.use(secureApiRouter);
+
+secureApiRouter.use(async (req, res, next) => {
+  authToken = req.cookies[authCookieName];
+  const user = await DB.getUserByToken(authToken);
+  if (user) {
+    next();
+  } else {
+    res.status(401).send({ msg: 'Unauthorized' });
+  }
 });
 
 // Get Current User
@@ -114,7 +120,6 @@ secureApiRouter.delete('/deleteCount', async (req, res) => {
 
 // get Items
 secureApiRouter.get('/items', async (req, res) => {
-  // cursor = await DB.getItems();
   items = await createArray(await DB.getItems());
   res.send(items);
 });
@@ -163,34 +168,6 @@ function setAuthCookie(res, authToken) {
     sameSite: 'strict',
   });
 }
-
-// User Logic
-// let users = [];
-// let currentUser = "";
-
-// function updateUsers(newUser, users) {
-//   users.push(newUser);
-//   return users;
-// }
-
-// Count Logic
-// let count = new Map();
-
-// Item logic
-// let items = [];
-
-// function editItem(editedInfo) {
-//   let editedItemIndex = items.findIndex((item) => item.UPC == editedInfo.oldUPC);
-//   editedInfo.item.user = currentUser;
-//   items.splice(editedItemIndex, 1, editedInfo.item);
-//   return items;
-// }
-
-// function deleteItem(deleteItem) {
-//   let deleteItemIndex = items.findIndex((item) => item.UPC == deleteItem.UPC);
-//   items.splice(deleteItemIndex, 1);
-//   return items;
-// }
 
 async function createArray(cursor) {
   items = [];
