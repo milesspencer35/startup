@@ -24,8 +24,7 @@ async function countItem() {
 
     let countItem = null;
     if (!count.get(upcCode)) {
-        countItem = itemsMap.get(upcCode);
-        countItem.count = 1;
+        countItem = {UPC: upcCode, count: 1, item: itemsMap.get(upcCode)};
     } else {
         countItem = count.get(upcCode);
         countItem.count += 1;
