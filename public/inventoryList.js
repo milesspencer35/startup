@@ -16,37 +16,37 @@ function closeRecentlyAddedPopup () {
     recentlyAddedPopup.classList.remove('open-popup');
 }
 
-function mockWebsocket () {
-    setInterval(() => {
-        const recentlyAddedListEl = document.querySelector('#recentlyAddedList');
+// function mockWebsocket () {
+//     setInterval(() => {
+//         const recentlyAddedListEl = document.querySelector('#recentlyAddedList');
         
-        recentlyAddedListEl.innerHTML = `
-        <li class="list-group-item">
-            <div class="list-group-item-detail">
-                <span class="list-group-item-type">Josh</span>
-                <span>added &nbsp; &mdash;</span>
-            </div>
-            <div class="list-group-item-detail">
-                <span class="list-group-item-type">Name: </span>
-                <span>BYU Jacket</span>
-            </div>
-            <div class="list-group-item-detail">
-                <span class="list-group-item-type">UPC: </span>
-                <span>123</span>
-            </div>
-            <div class="list-group-item-detail">
-                <span class="list-group-item-type">Style: </span>
-                <span>ABCD-321</span>
-            </div>
-            <div class="list-group-item-detail">
-                <span class="list-group-item-type">Size: </span>
-                <span>M</span>
-            </div>
-        </li>` + recentlyAddedListEl.innerHTML;
-      }, 10000);
-}
+//         recentlyAddedListEl.innerHTML = `
+//         <li class="list-group-item">
+//             <div class="list-group-item-detail">
+//                 <span class="list-group-item-type">Josh</span>
+//                 <span>added &nbsp; &mdash;</span>
+//             </div>
+//             <div class="list-group-item-detail">
+//                 <span class="list-group-item-type">Name: </span>
+//                 <span>BYU Jacket</span>
+//             </div>
+//             <div class="list-group-item-detail">
+//                 <span class="list-group-item-type">UPC: </span>
+//                 <span>123</span>
+//             </div>
+//             <div class="list-group-item-detail">
+//                 <span class="list-group-item-type">Style: </span>
+//                 <span>ABCD-321</span>
+//             </div>
+//             <div class="list-group-item-detail">
+//                 <span class="list-group-item-type">Size: </span>
+//                 <span>M</span>
+//             </div>
+//         </li>` + recentlyAddedListEl.innerHTML;
+//       }, 10000);
+// }
 
-mockWebsocket();
+// mockWebsocket();
 
 async function loadRecentlyAdded(items) {
     if (!items) {
@@ -94,7 +94,6 @@ function openAddItemPopup() {
 
 async function closeAddItemPopup(type){
     if (type == "add") {
-        // let items = await getItems();
         
         const newItemName = document.querySelector("#newItemName");
         const newItemUPC = document.querySelector("#newItemUPC");
@@ -104,15 +103,15 @@ async function closeAddItemPopup(type){
         if (!newItemName.value || !newItemUPC.value || !newItemStyle.value || !newItemSize.value) { //one field isn't filled out
             var message = document.querySelector("#badItemInfoMessage");
             message.textContent = "Please enter valid information";
-        // } else if (items.events && items.some(item =>  item.UPC === newItemUPC.value)) { //UPC already used
-        //     var message = document.querySelector("#badItemInfoMessage");
-        //     message.textContent = "UPC code already used.";
         } else {
-            let response = await this.saveItem({name: newItemName.value, UPC: newItemUPC.value, style: newItemStyle.value, size: newItemSize.value});
+            newItem = {name: newItemName.value, UPC: newItemUPC.value, style: newItemStyle.value, size: newItemSize.value};
+            let response = await this.saveItem(newItem);
             if (response.msg === "duplicate") {
                 var message = document.querySelector("#badItemInfoMessage");
                 message.textContent = "UPC code already used.";
             } else {
+                addedItem = response.find((item) => item.UPC === newItem.UPC);
+                this.broadcastEvent(addedItem);
                 loadItems(response);
                 loadRecentlyAdded(response);
                 popup.classList.remove('open-popup');
@@ -323,5 +322,51 @@ async function setCount(count) {
     });
 }
 
+let socket = null;
+
+function configureWebSocket() {
+    const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+    socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+    socket.onmessage = async (event) => {
+        const msg = JSON.parse(await event.data.text());
+        this.displayMsg(msg.item);
+    };
+}
+
+function displayMsg(item) {
+    const recentlyAddedListEl = document.querySelector('#recentlyAddedList');
+    recentlyAddedListEl.innerHTML = `
+        <li class="list-group-item">
+            <div class="list-group-item-detail">
+                <span class="list-group-item-type">${item.user}</span>
+                <span>added &nbsp; &mdash;</span>
+            </div>
+            <div class="list-group-item-detail">
+                <span class="list-group-item-type">Name: </span>
+                <span>${item.name}</span>
+            </div>
+            <div class="list-group-item-detail">
+                <span class="list-group-item-type">UPC: </span>
+                <span>${item.UPC}</span>
+            </div>
+            <div class="list-group-item-detail">
+                <span class="list-group-item-type">Style: </span>
+                <span>${item.style}</span>
+            </div>
+            <div class="list-group-item-detail">
+                <span class="list-group-item-type">Size: </span>
+                <span>${item.size}</span>
+            </div>
+        </li>` + recentlyAddedListEl.innerHTML;
+}
+
+function broadcastEvent(item) {
+    const event = {
+      item: item
+    };
+    socket.send(JSON.stringify(event));
+}
+
 loadRecentlyAdded();
 loadItems();
+configureWebSocket();
