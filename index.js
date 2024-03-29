@@ -125,7 +125,8 @@ secureApiRouter.get('/items', async (req, res) => {
 });
 // add Item
 secureApiRouter.post('/addItem', async (req, res) => {
-  cursor = await DB.addItem(req.body);
+  authToken = req.cookies[authCookieName];
+  cursor = await DB.addItem(req.body, authToken);
   if (cursor === "Duplicate UPC") {
     res.status(409).send({msg: "duplicate"});
   } else {

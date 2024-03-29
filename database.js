@@ -75,7 +75,9 @@ async function getItems() {
     return await itemCollection.find();
 }
 
-async function addItem(item) {
+async function addItem(item, authToken) {
+    user = await getUserByToken(authToken);
+    item.user = user.username;
     try {
         await itemCollection.insertOne(item);
         return await getItems();
