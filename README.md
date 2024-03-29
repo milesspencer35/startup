@@ -71,3 +71,14 @@ For this deliverable I added backend endpoints in backend.js.
 **Calls to third party endpoints** - Third party call to disify that verifies a entered email is valid. 
 **Backend service endpoints** - Placeholders for login that stores the current user on the server. Endpoints for counter and inventory list. 
 **Frontend calls service endpoints** - Frontend calls in main.js, index.js, counter.js and inventoryList.js. 
+
+## DB/Login deliverable
+
+For this deliverable I associate create login features. I stored items and counts in the database.
+
+- **MongoDB Atlas database created** - done!
+- **Stores data in MongoDB** - done!
+- **User registration** - Creates a new account in the database.
+- **existing user** - Can login in. Each users count is individually stored for them.
+- **Use MongoDB to store credentials** - Stores username, email, and encrypted password.
+- **Restricts functionality** - No functionally works if you aren't logged in. HTTPS requests won't work if not logged in. 
