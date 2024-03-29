@@ -272,15 +272,7 @@ async function closeEditItemPopup(type) {
     editItemPopup.classList.remove('open-popup');
 }
 
-async function getCount() {
-    const response = await fetch('/api/count');
-    countArray = await response.json();
-    count = new Map();
-    countArray.forEach((item) => {
-        count.set(item.UPC, item);
-    });
-    return count;
-}
+// Websocket //
 
 let socket = null;
 
