@@ -3,6 +3,7 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const DB = require('./database.js');
+const { peerProxy } = require('./peerProxy.js');
 
 const authCookieName = 'token';
 
@@ -152,13 +153,15 @@ secureApiRouter.patch('/deleteItem', async (req, res) => {
   res.send(items);
 });
 
+async function createArray(cursor) {
+  items = [];
+  await cursor.forEach(doc => items.push(doc));
+  return items;
+}
+
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
     res.sendFile('login.html', { root: 'public' });
-});
-
-app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
 });
 
 // setAuthCookie in the HTTP response
@@ -170,9 +173,8 @@ function setAuthCookie(res, authToken) {
   });
 }
 
-async function createArray(cursor) {
-  items = [];
-  await cursor.forEach(doc => items.push(doc));
-  return items;
-}
+const httpService = app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
 
+peerProxy(httpService);
