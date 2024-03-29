@@ -43,6 +43,7 @@ async function countItem() {
     displayCounts(count);
 }
 
+let timeoutID = 1;
 function showMessage(type) {
     let inputMessage = document.querySelector('#InputMessage');
     if (type === 'success') {
@@ -53,7 +54,8 @@ function showMessage(type) {
         inputMessage.style.color = '#ff0800';
         inputMessage.textContent = "UPC not found in Inventory";
     }
-    setTimeout(() => {inputMessage.textContent = ""}, "3000");
+    clearTimeout(timeoutID);
+    timeoutID = setTimeout(() => {inputMessage.textContent = ""}, "2000");
 }
 
 async function displayCounts(count) {
