@@ -19,8 +19,6 @@ itemCollection.createIndex( { "UPC": 1 }, { unique: true } );
     process.exit(1);
 });
 
-
-
 // User Collection //
 
 async function createUser(username, password, email) {
