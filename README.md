@@ -82,3 +82,12 @@ For this deliverable I associate create login features. I stored items and count
 - **existing user** - Can login in. Each users count is individually stored for them.
 - **Use MongoDB to store credentials** - Stores username, email, and encrypted password.
 - **Restricts functionality** - No functionally works if you aren't logged in. HTTPS requests won't work if not logged in. 
+
+## WebSocket deliverable
+
+For this deliverable I used webSocket to send a notification when a new item is added.
+
+- **Backend listens for WebSocket connection** - done!
+- **Frontend makes WebSocket connection** - done!
+- **Data sent over WebSocket connection** - done!
+- **WebSocket data displayed** - When an item is added it shows up in the recently added items popup. 
