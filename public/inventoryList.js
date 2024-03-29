@@ -282,14 +282,6 @@ async function getCount() {
     return count;
 }
 
-async function setCount(count) {
-    await fetch('/api/updateCount', {
-        method: 'POST',
-        headers: {'content-type': 'application/json'},
-        body: JSON.stringify(Object.fromEntries(count)),
-    });
-}
-
 let socket = null;
 
 function configureWebSocket() {
