@@ -1,4 +1,8 @@
 import React from 'react';
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
+import { Login } from '../login/login';
+import { Counter } from '../counter/counter';
+import { InventoryList } from '../inventoryList/inventoryList';
 import '../app.css';
 
 export function Header() {
@@ -42,19 +46,20 @@ export function Header() {
                 </div>
                 <div>
                     <div id="header-items">
-                        <a className="header-item" href="counter.html">Counter</a>
-                        <a className="header-item" href="inventoryList.html">Inventory List</a>
+                        <NavLink className="header-item" to='/app/counter'>Counter</NavLink>
+                        <NavLink className="header-item" to='/app/inventoryList'>Inventory List</NavLink>
                         <span id="header-username" >{username}</span>
-                        <a className="header-item" href="" onClick={logout}>Log out</a>
+                        <NavLink className="header-item" to='/'>Log out</NavLink>
                     </div>
                     <div className="dropdown">
                         <i className="bi bi-list dropbtn" onClick={dropdownClicked}></i>
                         <div className="dropdown-content">
                             <div className="dropdown-items">
-                                <a className="dropdown-item" href="counter.html">Counter</a>
-                                <a className="dropdown-item" href="inventoryList.html">Inventory List</a>
+                                {/* <a className="dropdown-item" href="counter.html">Counter</a> */}
+                                <NavLink className="dropdown-item" to='/counter'>Counter</NavLink>
+                                <NavLink className="dropdown-item" to='/inventoryList'>Inventory List</NavLink>
                                 <span className="dropdown-item" id="dropdown-username" style={{fontWeight: 'bold'}}>{username}</span>
-                                <a className="dropdown-item" href="" onClick={logout}>Log out</a>
+                                <NavLink className="dropdown-item" to='/'>Log out</NavLink>
                             </div>
                         </div>
                     </div>

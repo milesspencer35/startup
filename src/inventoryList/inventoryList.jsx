@@ -1,8 +1,9 @@
 import React from 'react';
+import { Header } from '../header/header';
 
 export function InventoryList() {
   return (
-    <main className='container-fluid bg-secondary text-center'>
+    <main>
       <div>InventoryList displayed here</div>
     </main>
   );

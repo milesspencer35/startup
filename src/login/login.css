@@ -1,0 +1,46 @@
+#center-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#header-text {
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+    font-size: 3rem;
+    text-align: center;
+}
+
+#login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-content {
+    font-family: 'Nunito', sans-serif;
+    margin-bottom: .5rem;
+    align-self: center;
+}
+
+#badLoginMessage {
+    padding: .5rem 0 .5rem;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
