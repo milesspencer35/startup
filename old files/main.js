@@ -15,7 +15,7 @@ async function logout() {
     await fetch('/api/logout', {
         method: 'DELETE'
     });
-    window.location.href = "index.html";
+    window.location.href = "login.html";
 }
 
 async function getCurrentUser() {
