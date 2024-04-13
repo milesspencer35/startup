@@ -1,4 +1,5 @@
 import React from 'react';
+import { CountItems } from './countItems';
 import './counter.css';
 
 export function Counter() {
@@ -6,32 +7,81 @@ export function Counter() {
   const [itemsMap, setItems] = React.useState(new Map());
 
   React.useEffect(() => {
-    fetch('/api/items')
+    let loadedItems = null;
+
+    const fetchItems = async () => {
+      let mapOfItems = null;
+      await fetch('/api/items')
       .then((response) => response.json())
       .then(async (items) => {
-        setItems(await getItemsMap(items));
+        mapOfItems = await getItemsMap(items);
       });
+      return mapOfItems;
+    }
+    const fetchCount = async () => {
+      let countMap = null;
+      await fetch('/api/count')
+      .then((response) => response.json())
+      .then(async (countArray) => {
+        countMap = await getCountMap(countArray, loadedItems);
+      });
+      return countMap;
+    }
+
+    const fetchBoth = async () => {
+      loadedItems = await fetchItems()
+      await setItems(loadedItems);
+      const loadedCount = await fetchCount();
+      await setCount(loadedCount);
+    };
+
+    fetchBoth();
+    
   }, []);
 
+  // turns items array into map
   async function getItemsMap(items) {
-    let itemsMap = new Map();
+    let mapOfItems = new Map();
     items.forEach((item) => {
-        itemsMap.set(item.UPC, item);
+       mapOfItems.set(item.UPC, item);
     });
-    return itemsMap;
-}
+    return mapOfItems;
+  }
+
+  // Count Items //
+
+  async function getCountMap(countArray, loadedItems) {
+    let countMap = new Map();
+    countArray.forEach((item) => {
+        countMap.set(item.UPC, item);
+    });
+    let joinCount = await joinItemsAndCount(countMap, loadedItems);
+    return joinCount;
+  }
+
+  async function joinItemsAndCount(countMap, loadedItems) {
+    let joinMap = new Map();
+    await countMap.forEach(async (countItem) => {
+        let joinItem = {
+            UPC: countItem.UPC,
+            item: await loadedItems.get(countItem.UPC),
+            count: countItem.count
+        }
+        await joinMap.set(joinItem.UPC, joinItem);
+    });
+
+    return joinMap;
+  }
 
 
-  const inputUPC = document.querySelector("#inputUPC");
   async function countItem() {
-    upcCode = inputUPC.value;
+    const inputUPC = document.querySelector("#inputUPC");
+    let upcCode = inputUPC.value;
 
     if (!itemsMap.get(upcCode)) {
         showMessage('error');
         return null;
     }
-
-    let count = await getCount();
 
     let countItem = null;
     if (!count.get(upcCode)) {
@@ -42,6 +92,7 @@ export function Counter() {
     }
 
     count.set(upcCode, countItem);
+    setCount(count);
 
     fetch('/api/updateCount', {
         method: 'POST',
@@ -51,15 +102,30 @@ export function Counter() {
 
     showMessage('success');
     inputUPC.value = "";
-    displayCounts(count);
+    // displayCounts(count);
+  }
+
+  let timeoutID = 1;
+  function showMessage(type) {
+      let inputMessage = document.querySelector('#InputMessage');
+      if (type === 'success') {
+          
+          inputMessage.style.color = '#4cbb17';
+          inputMessage.textContent = "Counted";
+      } else {
+          inputMessage.style.color = '#ff0800';
+          inputMessage.textContent = "UPC not found in Inventory";
+      }
+      clearTimeout(timeoutID);
+      timeoutID = setTimeout(() => {inputMessage.textContent = ""}, "2000");
   }
 
   async function resetCount () {
     await fetch('/api/deleteCount', {
         method: 'DELETE',
     });
-    count = new Map();
-    displayCounts(count);
+    setCount(new Map());
+    // displayCounts(count);
   }
 
   return (
@@ -74,7 +140,7 @@ export function Counter() {
         </div>
         <div id="count-content">
             <span id="count-title">Count</span>
-            <div id="count-items"> </div>
+            <CountItems countMap={ count }></CountItems>
             <button onClick={resetCount} id="reset-button" className="btn btn-danger">Reset Count</button>
         </div>
     </main>
