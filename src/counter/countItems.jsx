@@ -2,10 +2,8 @@ import React from "react";
 
 export function CountItems({ countMap }) {
     const countItems = [];
-    if (countMap.length) {
-        for (item of countMap.entries()) {
-            countItems.push(countItem(item));
-        }
+    if (countMap.size) {
+        countMap.values().forEach((item) => countItems.push(CountItem(item)));
     }
 
     return (
@@ -15,29 +13,29 @@ export function CountItems({ countMap }) {
     );
 }
 
-function countItem({ countItem }) {
+function CountItem(countItem) {
 
     return (
-        <div class="count-item">
-            <div class="item-name">`+ {countItem.item.name} + " &ndash; " + {countItem.item.size} +`</div>
-            <div class="item-content">
-                <div class="item-details">
+        <div key={countItem.item._id} className="count-item">
+            <div className="item-name">{countItem.item.name} &ndash; {countItem.item.size}</div>
+            <div className="item-content">
+                <div className="item-details">
                     <div>
-                        <span class="item-type">UPC: </span>
-                        <span class="item-data">`+{countItem.UPC}+`</span>
+                        <span className="item-type">UPC: </span>
+                        <span className="item-data"> {countItem.UPC}</span>
                     </div>
                     <div>
-                        <span class="item-type">Style Code:</span>
-                        <span class="item-data">`+{countItem.item.style}+`</span>
+                        <span className="item-type">Style Code:</span>
+                        <span className="item-data"> {countItem.item.style}</span>
                     </div>
                     <div>
-                        <span class="item-type">Size:</span>
-                        <span class="item-data">`+{countItem.item.size}+`</span>
+                        <span className="item-type">Size:</span>
+                        <span className="item-data"> {countItem.item.size}</span>
                     </div>
                 </div>
-                <div class="item-count">
-                    <span class="count-title">Count</span>
-                    <span class="count-number">`+{countItem.count}+`</span>
+                <div className="item-count">
+                    <span className="count-title">Count</span>
+                    <span className="count-number"> {countItem.count}</span>
                 </div>
             </div>
         </div>

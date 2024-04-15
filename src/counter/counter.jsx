@@ -73,6 +73,17 @@ export function Counter() {
     return joinMap;
   }
 
+  const updateCounts = (key, newCount, newItem) => {
+    // need to create a totally new map for this to work
+    const updatedCountMap = new Map(count);
+    const itemToUpdate = updatedCountMap.get(key);
+    if (itemToUpdate) {
+      itemToUpdate.count = newCount;
+    } else {
+      updatedCountMap.set(key, newItem);
+    }
+    setCount(updatedCountMap);
+  };
 
   async function countItem() {
     const inputUPC = document.querySelector("#inputUPC");
@@ -84,15 +95,15 @@ export function Counter() {
     }
 
     let countItem = null;
+    let newItemCount = 0;
     if (!count.get(upcCode)) {
         countItem = {UPC: upcCode, count: 1, item: itemsMap.get(upcCode)};
+        updateCounts(countItem.UPC, null, countItem);
     } else {
         countItem = count.get(upcCode);
-        countItem.count += 1;
+        newItemCount = countItem.count + 1;
+        updateCounts(countItem.UPC, newItemCount, null);
     }
-
-    count.set(upcCode, countItem);
-    setCount(count);
 
     fetch('/api/updateCount', {
         method: 'POST',
@@ -102,7 +113,6 @@ export function Counter() {
 
     showMessage('success');
     inputUPC.value = "";
-    // displayCounts(count);
   }
 
   let timeoutID = 1;
@@ -125,14 +135,13 @@ export function Counter() {
         method: 'DELETE',
     });
     setCount(new Map());
-    // displayCounts(count);
   }
 
   return (
     <main id="center-content">
         <div className="upc-form">
             <span className="upc-form-item">Input UPC Code</span>
-            <form className="form-group upc-form-item" action="javascript:countItem()">
+            <form className="form-group upc-form-item" action={countItem}>
               <input type="text" id="inputUPC" className="form-control" placeholder="UPC code" style={{fontSize: '1.25rem'}}></input>
             </form>
             <button onClick={countItem} className="btn btn-primary upc-form-item" style={{ borderRadius: '.5rem', fontSize: '1.5rem'}}>Add</button>
