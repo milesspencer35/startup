@@ -136,14 +136,23 @@ export function Counter() {
     });
     setCount(new Map());
   }
+  
+  const onKeyDown = event => {
+    // 'keypress' event misbehaves on mobile so we track 'Enter' key via 'keydown' event
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      event.stopPropagation();
+      countItem();
+    }
+  }
 
   return (
     <main id="center-content">
         <div className="upc-form">
             <span className="upc-form-item">Input UPC Code</span>
-            <form className="form-group upc-form-item" action={countItem}>
-              <input type="text" id="inputUPC" className="form-control" placeholder="UPC code" style={{fontSize: '1.25rem'}}></input>
-            </form>
+            <div className="form-group upc-form-item" >
+              <input type="text" onKeyDown={onKeyDown} id="inputUPC" className="form-control" placeholder="UPC code" style={{fontSize: '1.25rem'}}></input>
+            </div>
             <button onClick={countItem} className="btn btn-primary upc-form-item" style={{ borderRadius: '.5rem', fontSize: '1.5rem'}}>Add</button>
             <div id="InputMessage" style={{ height: '1.5rem', fontSize: '1.5rem', fontWeight: 'bold' }}></div>
         </div>
