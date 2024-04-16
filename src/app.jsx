@@ -13,7 +13,7 @@ export default function App() {
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<Login />} exact />
-                <Route path='app' element={<InApp param={"counter"} />} exact>
+                <Route path='app/*' element={<InApp param={"counter"} />} exact>
                     <Route path="counter" element={<Counter />} exact/>
                     <Route path='inventoryList' element={<InventoryList />} exact />
                 </Route>

@@ -1,0 +1,120 @@
+#main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+}
+
+#notification-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-self: start;
+    margin-top: 2rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+#notifcation-content h4 {
+    margin-bottom: 0rem;
+}
+
+.bi-card-list {
+    /* Since your button is a block button, otherwise use inline-flex */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem; 
+}
+
+.bi-card-list:hover {
+    color: #ff6600;
+}
+
+#recentlyAddedList {
+    min-height:300px;
+    height:300px;
+    overflow-y: scroll;
+}
+
+.list-group-item {
+    font-size: 1rem;
+    border-color: #ff7700;
+    background-color: transparent;
+    padding: .5rem;
+}
+
+.list-group-item-detail {
+    display: inline-block;
+}
+
+.list-group-item-type {
+    font-weight: bold;
+    margin-left: .5rem;
+}
+
+#add-item {
+    margin-top: 3rem;
+}
+
+#inventoryList-content {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.card {
+    margin-right: 1rem;
+    margin-left: 1rem;
+    border-radius: 0%;
+}
+
+.card-header {
+    border: none;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+.card-title {
+    margin: 0;
+    padding: .35rem;
+    font-weight: bold;
+}
+
+.collapse {
+    width: inherit;
+}
+
+.inventoryItem {
+    display: flex;
+    align-items: center;
+}
+
+.inventoryItem-details {
+    width: 100%;
+}
+
+.edit-button {
+    align-self: end;
+    margin-left: 1rem;
+    height: 2.25rem;
+    width: 4rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.form-group span {
+    font-weight: bold;
+    padding-right: .25rem;
+    width: 25%;
+}
+
+.popup button {
+    margin-top: .5rem;
+}

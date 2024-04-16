@@ -54,8 +54,8 @@ export function Header() {
                         <div className="dropdown-content">
                             <div className="dropdown-items">
                                 {/* <a className="dropdown-item" href="counter.html">Counter</a> */}
-                                <NavLink className="dropdown-item" to='/counter'>Counter</NavLink>
-                                <NavLink className="dropdown-item" to='/inventoryList'>Inventory List</NavLink>
+                                <NavLink className="dropdown-item" to='/app/counter'>Counter</NavLink>
+                                <NavLink className="dropdown-item" to='/app/inventoryList'>Inventory List</NavLink>
                                 <span className="dropdown-item" id="dropdown-username" style={{fontWeight: 'bold'}}>{username}</span>
                                 <NavLink onClick={logout} className="dropdown-item" to='/'>Log out</NavLink>
                             </div>
