@@ -29,8 +29,43 @@ export function Accordion({ items }) {
     );
 }
 
+let weights = {
+    'onesize' : 1,
+    'xxs' : 2,
+    'xs' : 3,
+    's' : 4,
+    'm' : 5,
+    'l' : 6,
+    'xl' : 7,
+    'xxl' : 8,
+    '2xl' : 8,
+    'xxxl' : 9,
+    '3xl' : 9,
+    'xxxxl' : 10,
+    '4xl' : 10
+  }
+  
+  function compareSizes(a, b) {
+    if (!isNaN(a.size) && !isNaN(b.size)) {
+        return compareNumbers(a.size, b.size);
+    } else if (!isNaN(a.size) && isNaN(b.size)) {
+        return -1;
+    } else if (isNaN(a.size) && !isNaN(b.size)) {
+        return 1;
+    } else {
+        a = a.size.toLowerCase();
+        b = b.size.toLowerCase();
+        return weights[a] - weights[b];
+    }
+  }
+  
+  function compareNumbers(a, b) {
+    return a - b;
+  }
+
 function accordionCard(i, key, styleItems) {
     const items = []
+    styleItems.sort(compareSizes);
     styleItems.forEach((item) => items.push(accordionItems(item)));
 
     return (
