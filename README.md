@@ -90,4 +90,13 @@ For this deliverable I used webSocket to send a notification when a new item is 
 - **Backend listens for WebSocket connection** - done!
 - **Frontend makes WebSocket connection** - done!
 - **Data sent over WebSocket connection** - done!
-- **WebSocket data displayed** - When an item is added it shows up in the recently added items popup. 
+- **WebSocket data displayed** - When an item is added it shows up in the recently added items popup.
+
+## React deliverable
+
+For this deliverable I converted the application over to use React.
+
+- **Bundled and transpiled** - done!
+- **Components** - Login, Header, InApp, Counter, CountItems, InventoryList, Accordion, and RecentlyAddedItems components
+- **Router** - Routing between Login, Counter, and InventoryList
+- **Hooks** - UseState used to store variables, useEffect used to load in data
