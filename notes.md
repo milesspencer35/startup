@@ -64,3 +64,11 @@ https://www.disify.com/
 * Counts are orders by style code
 * vibrations on successful add and unsuccessful all
 * Ability to remove a single count
+
+## Final Kahoot notes
+* Port 80 is reserved for http
+* Port 443 is reserved for https
+* Status codes: Success (200s), Redirection (300s), Client Error(400s), Server Errors(500s)
+* Standard HTTP Header Content-Type, Host, Cookie
+* Cookies allow a server to store data on the client
+* 
