@@ -95,7 +95,7 @@ export function Login() {
 
 
   return (
-    <div id="center-content">
+    <div id="center-content-login">
         <header id="login-header">
             <h1 id="header-text">UPC Counter</h1>
             <img width="75rem" src="barcode.png"></img>
