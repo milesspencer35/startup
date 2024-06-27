@@ -9,8 +9,7 @@ import "../popup/popup.css";
 export function InventoryList() {
   const [items, setItems] = React.useState([]);
   const [recentlyAdded, setRecentlyAdded] = React.useState([]);
-  const [recentlyAddedPopup, setRecentlyAddedPopup] = React.useState(null);
-  // const [addItemPopup, setAddItemPopup] = React.useState(null);
+  const [recentlyIsOpen, setRecentlyIsOpen] = React.useState(false);
   const [addIsOpen, setAddIsOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -24,16 +23,8 @@ export function InventoryList() {
 
   // Recently Added //
 
-  function openRecentlyAddedPopup () {
-    if (recentlyAddedPopup) {
-      recentlyAddedPopup.classList.add('open-popup');
-    }
-  }
-  
-  function closeRecentlyAddedPopup () {
-    if (recentlyAddedPopup) {
-      recentlyAddedPopup.classList.remove('open-popup');
-    }
+  function toggleRecentlyPopup() {
+	setRecentlyIsOpen(!recentlyIsOpen);
   }
 
   // Add Item //
@@ -133,7 +124,7 @@ export function InventoryList() {
     <main id="main-content">
         <div id="notification-content">
             <h5 style={{ marginBottom: '0', paddingRight: '.5rem' }}>Recently added items:</h5>
-            <i className="bi bi-card-list" onClick={openRecentlyAddedPopup}></i>
+            <i className="bi bi-card-list" onClick={toggleRecentlyPopup}></i>
         </div>
         <div id="add-item">
             <button onClick={toggleAddItemPopup} style={{fontSize: '1.5rem', borderRadius: '.5rem'}} className="btn btn-primary">Add Inventory Item</button>
@@ -169,11 +160,16 @@ export function InventoryList() {
         }
 
         {/* <!--Recently Added Popup--> */}
-        <div className="popup" id="recentlyAddedPopup">
-            <h4 style={{paddingTop: ".5rem"}}>Recently added items</h4>
-            <RecentlyAddedItems items={ recentlyAdded } ></RecentlyAddedItems>
-            <button onClick={() => closeRecentlyAddedPopup('cancel')} className="btn btn-outline-dark login-content">Close</button>
-        </div>
+
+		{recentlyIsOpen &&
+			<Popup>
+				<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+					<h4 style={{paddingTop: ".5rem"}}>Recently added items</h4>
+					<RecentlyAddedItems items={ recentlyAdded } ></RecentlyAddedItems>
+					<button onClick={toggleRecentlyPopup} className="btn btn-outline-dark login-content">Close</button>
+				</div>
+			</Popup>
+		}
 
         {/* <!--Edit Item Popup--> */}
         <div className="popup" id="editItemPopup">
