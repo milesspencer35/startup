@@ -11,6 +11,8 @@ export function InventoryList() {
   const [recentlyAdded, setRecentlyAdded] = React.useState([]);
   const [recentlyIsOpen, setRecentlyIsOpen] = React.useState(false);
   const [addIsOpen, setAddIsOpen] = React.useState(false);
+  const [editIsOpen, setEditIsOpen] = React.useState(false);
+  const [editItem, setEditItem] = React.useState({name: "Name", UPC: 'UPC', style: "Style code", size: "Size"});
 
   React.useEffect(() => {
     fetch('/api/items')
@@ -77,6 +79,10 @@ export function InventoryList() {
   }
 
   // Edit Item //
+
+  function toggleEditItemPopup() {
+	setEditIsOpen(!editIsOpen);
+  }
   
   async function closeEditItemPopup(type) {
     // In the future there also needs to be a variable for the edited item before it was even edited
@@ -117,7 +123,7 @@ export function InventoryList() {
         setRecentlyAdded(updatedItems.slice(updatedItems.length >= 10 ? updatedItems.length - 10 : 0,  updatedItems.length).toReversed());
   
     }
-    editItemPopup.classList.remove('open-popup');
+	toggleEditItemPopup();
   }
 
   return (
@@ -129,7 +135,7 @@ export function InventoryList() {
         <div id="add-item">
             <button onClick={toggleAddItemPopup} style={{fontSize: '1.5rem', borderRadius: '.5rem'}} className="btn btn-primary">Add Inventory Item</button>
         </div>
-        <Accordion items={items}></Accordion>
+        <Accordion items={items} setEditItem={setEditItem} setEditIsOpen={setEditIsOpen}></Accordion>
         {/* <!--Add Item popup--> */}
 
         {addIsOpen && 
@@ -172,31 +178,36 @@ export function InventoryList() {
 		}
 
         {/* <!--Edit Item Popup--> */}
-        <div className="popup" id="editItemPopup">
-            <h2>Edit Item</h2>
-            <div className="login-form">
-                <div className="form-group" style={{display: "flex", flexDirection: "row"}}>
-                    <span>Name:</span>
-                    <input type="text" className="form-control login-content" id="editItemName" placeholder="Name"></input>
-                </div>
-                <div className="form-group">
-                    <span>UPC:</span>
-                    <input type="text" className="form-control login-content" id="editItemUPC" disabled placeholder="UPC"></input>
-                  </div>
-                <div className="form-group">
-                    <span>Style:</span>
-                    <input type="text" className="form-control login-content" id="editItemStyle" placeholder="Style code"></input>
-                </div>
-                <div className="form-group">
-                    <span>Size:</span>
-                    <input type="text" className="form-control login-content" id="editItemSize" placeholder="Size"></input>
-                </div>
-                <div id="badEditInfoMessage"></div>
-                <button onClick={() => closeEditItemPopup('confirm')} className="btn btn-primary login-content">Confirm</button>
-                <button onClick={() => closeEditItemPopup('cancel')} className="btn btn-outline-dark login-content">Cancel</button>
-            </div>
-            <button onClick={() => closeEditItemPopup('delete')} className="btn btn-danger" style={{fontSize: ".75rem", marginTop: "1rem"}}>Delete Item</button>
-        </div>
+
+		{editIsOpen &&
+			<Popup>
+				<h2>Edit Item</h2>
+				<div className="login-form">
+					<div className="form-group" style={{display: "flex", flexDirection: "row"}}>
+						<span>Name:</span>
+						<input type="text" className="form-control login-content" id="editItemName" placeholder="Name" defaultValue={editItem.name}></input>
+					</div>
+					<div className="form-group">
+						<span>UPC:</span>
+						<input type="text" className="form-control login-content" id="editItemUPC" disabled placeholder="UPC" defaultValue={editItem.UPC}></input>
+					</div>
+					<div className="form-group">
+						<span>Style:</span>
+						<input type="text" className="form-control login-content" id="editItemStyle" placeholder="Style code" defaultValue={editItem.style}></input>
+					</div>
+					<div className="form-group">
+						<span>Size:</span>
+						<input type="text" className="form-control login-content" id="editItemSize" placeholder="Size" defaultValue={editItem.size}></input>
+					</div>
+					<div id="badEditInfoMessage"></div>
+					<button onClick={() => closeEditItemPopup('confirm')} className="btn btn-primary login-content">Confirm</button>
+					<button onClick={() => closeEditItemPopup('cancel')} className="btn btn-outline-dark login-content">Cancel</button>
+					<button onClick={() => closeEditItemPopup('delete')} className="btn btn-danger" style={{fontSize: ".75rem", marginTop: ".75rem"}}>Delete Item</button>
+				</div>
+				
+			</Popup>
+		}
+
     </main>
   );
 }

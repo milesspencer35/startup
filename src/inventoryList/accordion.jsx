@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Accordion({ items }) {
+export function Accordion({ items, setEditItem, setEditIsOpen}) {
 
     let styles = {}
     items.forEach(item => {
@@ -15,7 +15,7 @@ export function Accordion({ items }) {
     if (Object.keys(styles).length !== 0) {
         let i = 1;
         for(const [key, styleItems] of Object.entries(styles)) {
-            accordionCards.push(accordionCard(i, key, styleItems));
+            accordionCards.push(accordionCard(i, key, styleItems, setEditItem, setEditIsOpen));
             i++;
         }
     }
@@ -63,10 +63,10 @@ let weights = {
     return a - b;
   }
 
-function accordionCard(i, key, styleItems) {
+function accordionCard(i, key, styleItems, setEditItem, setEditIsOpen) {
     const items = []
     styleItems.sort(compareSizes);
-    styleItems.forEach((item) => items.push(accordionItems(item)));
+    styleItems.forEach((item) => items.push(accordionItems(item, setEditItem, setEditIsOpen)));
 
     return (
         <div className='card' id={"card" + i} key={i}>
@@ -88,21 +88,12 @@ function accordionCard(i, key, styleItems) {
     );
 }
 
-function accordionItems(item) {
-    let editItemPopup = document.getElementById('editItemPopup');
-    const editItemName = document.querySelector("#editItemName");
-    const editItemUPC = document.querySelector("#editItemUPC");
-    const editItemStyle = document.querySelector("#editItemStyle");
-    const editItemSize = document.querySelector("#editItemSize");
+function accordionItems(item, setEditItem, setEditIsOpen) {
 
     async function openEditItemPopup(editItem) {
-        editItemName.value = editItem.name;
-        editItemUPC.value = editItem.UPC;
-        editItemStyle.value = editItem.style;
-        editItemSize.value = editItem.size;
-        editItemPopup.classList.add('open-popup');
+        setEditItem(editItem);
+        setEditIsOpen(true);
       }
-
 
     return (
         <li key={item.UPC} className="list-group-item inventoryItem">
