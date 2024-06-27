@@ -2,21 +2,16 @@ import React from 'react';
 import { Accordion } from './accordion';
 import { RecentlyAddedItems } from './recentlyAddedItems';
 import { Notifier } from './inventoryNotifier';
+import { Popup } from '../popup/popup'
 import "./inventoryList.css";
 import "../popup/popup.css";
-
-
 
 export function InventoryList() {
   const [items, setItems] = React.useState([]);
   const [recentlyAdded, setRecentlyAdded] = React.useState([]);
   const [recentlyAddedPopup, setRecentlyAddedPopup] = React.useState(null);
-  const [addItemPopup, setAddItemPopup] = React.useState(null);
-
-  React.useEffect(() => {
-    setRecentlyAddedPopup(document.getElementById('recentlyAddedPopup'));
-    setAddItemPopup(document.getElementById('popup'));
-}, []);
+  // const [addItemPopup, setAddItemPopup] = React.useState(null);
+  const [addIsOpen, setAddIsOpen] = React.useState(false);
 
   React.useEffect(() => {
     fetch('/api/items')
@@ -43,16 +38,11 @@ export function InventoryList() {
 
   // Add Item //
 
-  function openAddItemPopup() {
-    if (addItemPopup) {
-      addItemPopup.classList.add('open-popup');
-    }
+  function toggleAddItemPopup() {
+    setAddIsOpen(!addIsOpen);
   }
 
   async function closeAddItemPopup(type){
-    if (!addItemPopup) {
-      return;
-    }
     if (type == "add") {
         
       const newItemName = document.querySelector("#newItemName");
@@ -74,13 +64,13 @@ export function InventoryList() {
               Notifier.broadcastEvent(addedItem);
               setItems(response)
               setRecentlyAdded(response.slice(response.length >= 10 ? response.length - 10 : 0,  response.length).toReversed());
-              popup.classList.remove('open-popup');
+              toggleAddItemPopup();
           }
       }
     } else { //cancel clicked
         var message = document.querySelector("#badItemInfoMessage");
         message.textContent = "";
-        popup.classList.remove('open-popup');
+        toggleAddItemPopup();
     }
   }
 
@@ -146,34 +136,38 @@ export function InventoryList() {
             <i className="bi bi-card-list" onClick={openRecentlyAddedPopup}></i>
         </div>
         <div id="add-item">
-            <button onClick={openAddItemPopup} style={{fontSize: '1.5rem', borderRadius: '.5rem'}} className="btn btn-primary">Add Inventory Item</button>
+            <button onClick={toggleAddItemPopup} style={{fontSize: '1.5rem', borderRadius: '.5rem'}} className="btn btn-primary">Add Inventory Item</button>
         </div>
         <Accordion items={items}></Accordion>
         {/* <!--Add Item popup--> */}
-        <div className="popup" id="popup">
-            <h2>Add Item</h2>
-            <div className="login-form">
-                <div className="form-group" style={{display: "flex", flexDirection: "row"}}>
-                    <span>Name:</span>
-                    <input type="text" className="form-control login-content" id="newItemName" placeholder="Name"></input>
-                </div>
-                <div className="form-group">
-                    <span>UPC:</span>
-                    <input type="text" className="form-control login-content" id="newItemUPC" placeholder="UPC"></input>
-                  </div>
-                <div className="form-group">
-                    <span>Style:</span>
-                    <input type="text" className="form-control login-content" id="newItemStyle" placeholder="Style code"></input>
-                </div>
-                <div className="form-group">
-                    <span>Size:</span>
-                    <input type="text" className="form-control login-content" id="newItemSize" placeholder="Size"></input>
-                </div>
-                <div id="badItemInfoMessage"></div>
-                <button onClick={() => closeAddItemPopup('add')} className="btn btn-primary login-content">Add</button>
-                <button onClick={() => closeAddItemPopup('cancel')} className="btn btn-outline-dark login-content">Cancel</button>
-            </div>
-        </div>
+
+        {addIsOpen && 
+			<Popup>
+				<h2>Add Item</h2>
+				<div className="login-form">
+					<div className="form-group" style={{display: "flex", flexDirection: "row"}}>
+						<span>Name:</span>
+						<input type="text" className="form-control login-content" id="newItemName" placeholder="Name"></input>
+					</div>
+					<div className="form-group">
+						<span>UPC:</span>
+						<input type="text" className="form-control login-content" id="newItemUPC" placeholder="UPC"></input>
+					</div>
+					<div className="form-group">
+						<span>Style:</span>
+						<input type="text" className="form-control login-content" id="newItemStyle" placeholder="Style code"></input>
+					</div>
+					<div className="form-group">
+						<span>Size:</span>
+						<input type="text" className="form-control login-content" id="newItemSize" placeholder="Size"></input>
+					</div>
+					<div id="badItemInfoMessage"></div>
+					<button onClick={() => closeAddItemPopup('add')} className="btn btn-primary login-content">Add</button>
+					<button onClick={() => closeAddItemPopup('cancel')} className="btn btn-outline-dark login-content">Cancel</button>
+				</div>
+			</Popup>
+        }
+
         {/* <!--Recently Added Popup--> */}
         <div className="popup" id="recentlyAddedPopup">
             <h4 style={{paddingTop: ".5rem"}}>Recently added items</h4>

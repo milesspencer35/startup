@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate} from 'react-router-dom';
 import './login.css';
-//import '../popup.css';
 import { Popup } from '../popup/popup.jsx'
 
 
@@ -118,8 +117,8 @@ export function Login() {
             <div onClick={toggleRegisterPopup} className="btn btn-outline-dark login-content">Register</div>
 
             {isOpen && 
-                <Popup handleClose={toggleRegisterPopup}>
-                    <h2 style={{display: 'flex', justifyContent: 'center'}}>Register</h2>
+                <Popup>
+                    <h2>Register</h2>
                     <div className="login-form">
                         <div className="form-group">
                         <input type="text" className="form-control login-content" id="RegisterUsername" placeholder="Username"></input>
