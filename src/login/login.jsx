@@ -1,16 +1,19 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate} from 'react-router-dom';
 import './login.css';
-import '../popup.css';
+//import '../popup.css';
+import { Popup } from '../popup/popup.jsx'
+
 
 export function Login() {
-    const navigate = useNavigate();
-    let popup = document.getElementById('popup');
 
-    function openRegisterPopup() {
-        popup = document.getElementById('popup');
-        popup.classList.add('open-popup');
-    }
+    const navigate = useNavigate();
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleRegisterPopup = () => {
+        setIsOpen(!isOpen);
+    };
 
     async function closeRegisterPopup(type){
         if (type == "submit") {
@@ -52,7 +55,7 @@ export function Login() {
         } else { //cancel clicked
             var message = document.querySelector("#badInfoMessage");
             message.textContent = "";
-            popup.classList.remove('open-popup');
+            toggleRegisterPopup();
         }
     }
 
@@ -112,25 +115,28 @@ export function Login() {
                 <button onClick={login} className="btn btn-primary login-content">Submit</button>
             </div>
 
-            <div onClick={openRegisterPopup} className="btn btn-outline-dark login-content">Register</div>
+            <div onClick={toggleRegisterPopup} className="btn btn-outline-dark login-content">Register</div>
 
-            <div className="popup" id="popup">
-                <h2>Register</h2>
-                <div className="login-form">
-                    <div className="form-group">
-                      <input type="text" className="form-control login-content" id="RegisterUsername" placeholder="Username"></input>
+            {isOpen && 
+                <Popup handleClose={toggleRegisterPopup}>
+                    <h2 style={{display: 'flex', justifyContent: 'center'}}>Register</h2>
+                    <div className="login-form">
+                        <div className="form-group">
+                        <input type="text" className="form-control login-content" id="RegisterUsername" placeholder="Username"></input>
+                        </div>
+                        <div className="form-group">
+                            <input type="text" className="form-control login-content" id="RegisterEmail" placeholder="Email"></input>
+                        </div>
+                        <div className="form-group">
+                        <input type="password" className="form-control login-content" id="RegisterPassword" placeholder="Password"></input>
+                        </div>
+                        <div id="badInfoMessage"></div>
+                        <button onClick={() => closeRegisterPopup('submit')} className="btn btn-primary login-content">Submit</button>
+                        <button onClick={ () => closeRegisterPopup('cancel')} className="btn btn-outline-dark login-content">Cancel</button>
                     </div>
-                    <div className="form-group">
-                        <input type="text" className="form-control login-content" id="RegisterEmail" placeholder="Email"></input>
-                      </div>
-                    <div className="form-group">
-                      <input type="password" className="form-control login-content" id="RegisterPassword" placeholder="Password"></input>
-                    </div>
-                    <div id="badInfoMessage"></div>
-                    <button onClick={() => closeRegisterPopup('submit')} className="btn btn-primary login-content">Submit</button>
-                    <button onClick={ () => closeRegisterPopup('cancel')} className="btn btn-outline-dark login-content">Cancel</button>
-                </div>
-            </div>
+                </Popup>
+            }
+
         </main>
     </div>
   );

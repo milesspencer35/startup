@@ -3,7 +3,7 @@ import { Accordion } from './accordion';
 import { RecentlyAddedItems } from './recentlyAddedItems';
 import { Notifier } from './inventoryNotifier';
 import "./inventoryList.css";
-import "../popup.css";
+import "../popup/popup.css";
 
 
 
